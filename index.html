@@ -2278,19 +2278,19 @@ const ZG={a:[800,420],done:false};
 function renderZg(){const p=byType('project'),a=achEntries().length;
   $('zgStats').innerHTML='<span><b>'+String(p.length).padStart(2,'0')+'</b>'+esc(t('lProj'))+'</span><span><b>'+String(a).padStart(2,'0')+'</b>'+esc(t('lAch'))+'</span><span><b>'+String(byType('tool').length+byType('prog').length).padStart(2,'0')+'</b>Tools &amp; code</span>';
   const words=(p.length?p.map(e=>e.title):['Robotika','AI / ML','Arduino','Python','C++']).slice(0,10);const row=words.map(w=>'<span>'+esc(w)+' ✦</span>').join('');$('zgMarq').innerHTML=row+row+row;}
-function zgAnchor(){const ov=$('zgOv'),i=$('zgWord').children[8];if(!ov||!i)return;const t0=ov.style.transform;ov.style.transform='none';
-  const o=ov.getBoundingClientRect(),r=i.getBoundingClientRect();ZG.a=[r.left-o.left+r.width/2,r.top-o.top+r.height*.5];ZG.c=[o.width/2,o.height/2];ov.style.transform=t0;}
+function zgAnchor(){const ov=$('zgOv'),i=$('zgWord').children[5];if(!ov||!i)return;const t0=ov.style.transform;ov.style.transform='none';
+  const o=ov.getBoundingClientRect(),r=i.getBoundingClientRect();ZG.a=[r.left-o.left+r.width*.27,r.top-o.top+r.height*.62];ZG.c=[o.width/2,o.height/2];ov.style.transform=t0;}
 function zgSet(p){/* p 0..1 across the pinned scroll: zoom into the stem of the I until it fills the screen */
-  const z=Math.min(1,Math.max(0,(p-.08)/.62)),e=z*z*z,s=Math.pow(160,e),[ax,ay]=ZG.a,[cx,cy]=ZG.c||[innerWidth/2,innerHeight/2],k=Math.min(1,z*1.8);
-  const rot=-32*(1-Math.pow(1-Math.min(1,z*1.25),3)),sk=-8*Math.sin(Math.min(1,z*1.4)*Math.PI);
-  const ov=$('zgOv');ov.style.transformOrigin=ax+'px '+ay+'px';ov.style.transform='translate('+((cx-ax)*k).toFixed(2)+'px,'+((cy-ay)*k).toFixed(2)+'px) rotate('+rot.toFixed(2)+'deg) skewX('+sk.toFixed(2)+'deg) scale('+s.toFixed(4)+')';
+  const z=Math.min(1,Math.max(0,(p-.06)/.66)),e=z<.5?2*z*z*z*z*1.6:1-Math.pow(-2*z+2,3)/2,s=Math.pow(120,Math.min(1,Math.max(0,e))),[ax,ay]=ZG.a,[cx,cy]=ZG.c||[innerWidth/2,innerHeight/2],k=Math.min(1,z*1.8);
+  const rot=-11*Math.sin(Math.min(1,z)*Math.PI/2);
+  const ov=$('zgOv');ov.style.transformOrigin=ax+'px '+ay+'px';ov.style.transform='translate('+((cx-ax)*k).toFixed(2)+'px,'+((cy-ay)*k).toFixed(2)+'px) rotate('+rot.toFixed(2)+'deg) scale('+s.toFixed(4)+')';
   ov.style.visibility=z>=.999?'hidden':'visible';
   $('zgHint').style.opacity=String(Math.max(0,1-p*8));
   const ip=Math.min(1,Math.max(0,(p-.6)/.3)),ie=1-Math.pow(1-ip,3);const inn=$('zgInner');inn.style.opacity=String(ie);inn.style.transform='translateY('+((1-ie)*60).toFixed(1)+'px) scale('+(1.15-.15*ie).toFixed(3)+')';
   $('zgWorld').style.transform='scale('+(1.25-.25*z).toFixed(3)+')';}
 function setupZg(){const zg=$('zg');if(!zg)return;renderZg();
   const go=()=>{zgAnchor();if(!ST||reduce){$('zgOv').style.display='none';$('zgHint').style.display='none';return;}
-    ST.create({trigger:zg,start:'top top',end:'bottom bottom',scrub:.6,onUpdate:s=>zgSet(s.progress)});zgSet(0);ST.refresh();};
+    ST.create({trigger:zg,start:'top top',end:'bottom bottom',scrub:1.2,onUpdate:s=>zgSet(s.progress)});zgSet(0);ST.refresh();};
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(go);else go();
   window.addEventListener('resize',()=>{zgAnchor();});}
 
