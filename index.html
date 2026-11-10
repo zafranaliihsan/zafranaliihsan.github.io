@@ -1515,6 +1515,13 @@ main{counter-reset:sec}
       <label class="f" for="pLaws">Prinsip kerja (Indonesia), satu per baris: judul | penjelasan<textarea id="pLaws" maxlength="900" rows="4"></textarea></label>
       <label class="f" for="pLawsEn">Prinsip kerja (English)<textarea id="pLawsEn" maxlength="900" rows="4"></textarea></label>
     </div>
+    <div class="sub">Teks berjalan</div>
+    <label class="f" for="pMarq">Teks berjalan di bagian Portofolio (krem). Satu frasa per baris. Kosongkan untuk memakai judul project otomatis.<textarea id="pMarq" maxlength="600" rows="3" placeholder="Robotika&#10;AI / ML&#10;Arduino"></textarea></label>
+    <div class="row2">
+      <label class="f" for="pTapeA">Pita garis polisi 1 (biru). Pisahkan dengan |<input type="text" id="pTapeA" maxlength="120" placeholder="PROJECT | ZAFRAN | JEJAK KARIER"></label>
+      <label class="f" for="pTapeB">Pita garis polisi 2 (oranye). Pisahkan dengan |<input type="text" id="pTapeB" maxlength="120" placeholder="DO NOT CROSS | WORK IN PROGRESS | SEMESTER {sem}"></label>
+    </div>
+    <p class="hint" style="margin:0">Tulis {sem} untuk menampilkan semester sekarang secara otomatis.</p>
     <div class="sub">Kartu identitas</div>
     <div class="row2">
       <label class="f" for="pCardTag">Label kecil kartu<input type="text" id="pCardTag" maxlength="14" placeholder="JUNIOR"></label>
@@ -1979,7 +1986,10 @@ function renderToolbox(){
   mk('language','langList',t('noLang'),e=>flagOf(e.title));
   renderWsStats();
 }
-function renderTapes(){const n=(S.profile.name||'ZAFRAN').toUpperCase();const a=Array(10).fill('<span>PROJECT ✦ '+esc(n)+' ✦ JEJAK KARIER</span>').join('');const b=Array(10).fill('<span>'+t('tapeB')+' '+Math.max(1,semOf(today()))+'</span>').join('');
+function renderTapes(){const p=S.profile,n=(p.name||'ZAFRAN').toUpperCase(),sem=Math.max(1,semOf(today()));
+  const fx=v=>String(v||'').replace(/\{sem\}/gi,sem).split('|').map(x=>x.trim()).filter(Boolean).map(esc).join(' ✦ ');
+  const ta=String(p.tapeA||'').trim()?fx(p.tapeA):'PROJECT ✦ '+esc(n)+' ✦ JEJAK KARIER',tb=String(p.tapeB||'').trim()?fx(p.tapeB):esc(t('tapeB'))+' '+sem;
+  const a=Array(10).fill('<span>'+ta+'</span>').join(''),b=Array(10).fill('<span>'+tb+'</span>').join('');
   document.querySelector('[data-tape=a]').innerHTML=a+a;document.querySelector('[data-tape=b]').innerHTML=b+b;}
 function renderAll(){renderHero();if($('zgStats'))renderZg();renderAbout();renderIcons();renderTapes();Wheel.render();renderChapters();renderAchHome();renderToolbox();renderLookback();if(curView!=='home')renderPage();animateNew();}
 
@@ -2277,7 +2287,7 @@ function setupBento(){
 const ZG={a:[800,420],done:false};
 function renderZg(){const p=byType('project'),a=achEntries().length;
   $('zgStats').innerHTML='<span><b>'+String(p.length).padStart(2,'0')+'</b>'+esc(t('lProj'))+'</span><span><b>'+String(a).padStart(2,'0')+'</b>'+esc(t('lAch'))+'</span><span><b>'+String(byType('tool').length+byType('prog').length).padStart(2,'0')+'</b>Tools &amp; code</span>';
-  const words=(p.length?p.map(e=>e.title):['Robotika','AI / ML','Arduino','Python','C++']).slice(0,10);const row=words.map(w=>'<span>'+esc(w)+' ✦</span>').join('');$('zgMarq').innerHTML=row+row+row;}
+  const own=String(S.profile.marquee||'').split('\n').map(x=>x.trim()).filter(Boolean);const words=(own.length?own:p.length?p.map(e=>e.title):['Robotika','AI / ML','Arduino','Python','C++']).slice(0,12);const row=words.map(w=>'<span>'+esc(w)+' ✦</span>').join('');$('zgMarq').innerHTML=row+row+row;}
 function zgAnchor(){const ov=$('zgOv'),i=$('zgWord').children[5];if(!ov||!i)return;const t0=ov.style.transform;ov.style.transform='none';
   const o=ov.getBoundingClientRect(),r=i.getBoundingClientRect();ZG.a=[r.left-o.left+r.width*.22,r.top-o.top+r.height*.68];ZG.c=[o.width/2,o.height/2];ov.style.transform=t0;}
 function zgSet(p){/* p 0..1 across the pinned scroll: zoom into the stem of the I until it fills the screen */
@@ -2703,7 +2713,7 @@ $('entryForm').addEventListener('submit',async ev=>{ev.preventDefault();if(!S.db
     if(type==='achievement'){const sc=document.querySelector('input[name=fscope]:checked');body.scope=sc?sc.value:'kampus';}
     await (S.editing?S.db.collection('entries').doc(S.editing):S.db.collection('entries').doc()).set(body);$('entryDlg').close();toast(S.editing?'Jejak diperbarui':'Jejak tersimpan');
   }catch(err){$('entryMsg').textContent=errText(err);}finally{btn.disabled=false;btn.textContent='Simpan';}});
-const PF={pName:'name',pFull:'fullName',pRole:'role',pRoleEn:'roleEn',pBio:'bio',pBioEn:'bioEn',pCardTag:'cardTag',pCardBig:'cardBig',pNim:'nim',pProdi:'prodi',pCampus:'campus',pIg:'instagram',pTt:'tiktok',pGh:'github',pLi:'linkedin',pFb:'facebook',pDc:'discord',pEmail:'email',pBase:'base',pMotto:'aboutMotto',pMottoEn:'aboutMottoEn',pMottoSub:'aboutMottoSub',pMottoSubEn:'aboutMottoSubEn',pStory:'aboutStory',pStoryEn:'aboutStoryEn',pParts:'aboutParts',pPartsEn:'aboutPartsEn',pLaws:'aboutLaws',pLawsEn:'aboutLawsEn'};
+const PF={pName:'name',pFull:'fullName',pRole:'role',pRoleEn:'roleEn',pBio:'bio',pBioEn:'bioEn',pCardTag:'cardTag',pCardBig:'cardBig',pNim:'nim',pProdi:'prodi',pCampus:'campus',pIg:'instagram',pTt:'tiktok',pGh:'github',pLi:'linkedin',pFb:'facebook',pDc:'discord',pEmail:'email',pMarq:'marquee',pTapeA:'tapeA',pTapeB:'tapeB',pBase:'base',pMotto:'aboutMotto',pMottoEn:'aboutMottoEn',pMottoSub:'aboutMottoSub',pMottoSubEn:'aboutMottoSubEn',pStory:'aboutStory',pStoryEn:'aboutStoryEn',pParts:'aboutParts',pPartsEn:'aboutPartsEn',pLaws:'aboutLaws',pLawsEn:'aboutLawsEn'};
 const PF_DEF={pBase:['id','ab_base'],pMotto:['id','ab_aboutMotto'],pMottoEn:['en','ab_aboutMotto'],pMottoSub:['id','ab_aboutMottoSub'],pMottoSubEn:['en','ab_aboutMottoSub'],pStory:['id','ab_aboutStory'],pStoryEn:['en','ab_aboutStory'],pParts:['id','ab_aboutParts'],pPartsEn:['en','ab_aboutParts'],pLaws:['id','ab_aboutLaws'],pLawsEn:['en','ab_aboutLaws']};
 function openProfile(){const p=S.profile;$('profMsg').textContent='';Object.keys(PF).forEach(k=>$(k).value=p[PF[k]]||(PF_DEF[k]?T[PF_DEF[k][0]][PF_DEF[k][1]]:''));$('pAngk').value=angk();$('pTarget').value=gradTarget();$('pHero').value='';$('pPhoto').value='';$('pCardImg').value='';$('pHero').disabled=$('pPhoto').disabled=$('pCardImg').disabled=!S.assets;openDlg('profDlg');}
 $('profForm').addEventListener('submit',async ev=>{ev.preventDefault();if(!S.db)return;const btn=$('profSave');btn.disabled=true;btn.textContent='Menyimpan…';

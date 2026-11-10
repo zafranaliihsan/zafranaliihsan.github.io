@@ -70,3 +70,11 @@ Setiap kali kamu menyimpan, website membuat commit ke repo ini (gambar masuk ke 
 - Gunakan mode admin hanya di laptop atau HP pribadi. Klik **Keluar** di pojok kiri bawah untuk menghapus token dari browser.
 - Kalau token bocor atau perangkat hilang, hapus token di halaman Fine-grained tokens. Token langsung tidak berlaku.
 - Surat untuk diri sendiri di bagian Wisuda tidak pernah diunggah ke GitHub. Isinya hanya tersimpan di browser tempat kamu menulisnya.
+
+## Teks berjalan
+
+Bisa diubah lewat **Edit profil → Teks berjalan**, atau di `data.js` dalam `profile`:
+
+- `marquee`: teks berjalan di bagian Portofolio (krem), satu frasa per baris (`\n`). Kosongkan untuk memakai judul project otomatis.
+- `tapeA`: pita garis polisi biru, pisahkan frasa dengan `|`.
+- `tapeB`: pita garis polisi oranye, pisahkan dengan `|`. Tulis `{sem}` untuk semester sekarang.
