@@ -31,7 +31,7 @@ window.PORTFOLIO_DATA = {
     "target": "2030-08",
     "instagram": "",
     "tiktok": "",
-    "github": "",
+    "github": "zafranaliihsan",
     "linkedin": "",
     "email": "",
     "photo": "card.webp",
