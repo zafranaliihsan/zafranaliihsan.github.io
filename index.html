@@ -203,6 +203,80 @@ section.sec{position:relative;padding-block:120px 40px}
 
 /* projects */
 #project{overflow:hidden;padding-bottom:100px}
+/* ============ ZOOM GATE: dive through the word into a warm world ============ */
+.zg{position:relative;height:280vh;z-index:2}
+.zg-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.zg-world{position:absolute;inset:0;background:#EFE7DA;color:#0B0F1E;overflow:hidden;
+  background-image:radial-gradient(rgba(11,15,30,.13) 1.2px,transparent 1.3px);background-size:22px 22px}
+.zg-blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.75;mix-blend-mode:multiply;animation:blob 14s ease-in-out infinite alternate}
+.zg-blob.b1{width:52vmax;height:52vmax;left:-12vmax;top:-18vmax;background:#FF8A3D}
+.zg-blob.b2{width:44vmax;height:44vmax;right:-14vmax;top:10vmax;background:#FFC46B;animation-delay:-5s}
+.zg-blob.b3{width:40vmax;height:40vmax;left:28vmax;bottom:-22vmax;background:#9FB4FF;animation-delay:-9s}
+@keyframes blob{0%{transform:translate(0,0) scale(1)}50%{transform:translate(6vmax,4vmax) scale(1.12)}100%{transform:translate(-4vmax,7vmax) scale(.92)}}
+.zg-inner{position:absolute;inset:0;display:grid;align-content:center;justify-items:center;text-align:center;gap:18px;padding:0 6vw;z-index:2}
+.zg-k{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#5a4a3a}
+.zg-k b{width:9px;height:9px;border-radius:50%;background:#FF6A1A;box-shadow:0 0 0 4px rgba(255,106,26,.2)}
+.zg-h{margin:0;font-family:var(--display);font-weight:400;font-size:clamp(56px,10vw,156px);line-height:.86;text-transform:uppercase;letter-spacing:.005em;color:#0B0F1E}
+.zg-h em{font-style:normal;color:#E8590C;display:inline-block}
+.zg-p{margin:0;max-width:52ch;font-size:clamp(15px,1.3vw,18px);line-height:1.6;color:#3b3631}
+.zg-stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.zg-stats span{font-family:var(--mono);font-size:12px;letter-spacing:.08em;padding:8px 14px;border-radius:999px;background:rgba(11,15,30,.88);color:#EFE7DA}
+.zg-stats span b{color:#FF8A3D;margin-right:6px}
+.zg-marq{position:absolute;left:0;right:0;bottom:6vh;overflow:hidden;z-index:1;pointer-events:none}
+.zg-marq div{display:flex;gap:40px;width:max-content;animation:marq 40s linear infinite;font-family:var(--display);font-size:clamp(40px,6vw,90px);line-height:1;text-transform:uppercase;color:transparent;-webkit-text-stroke:1.5px rgba(11,15,30,.18);white-space:nowrap}
+.zg-ov{position:absolute;inset:-120vmax;z-index:3;background:#070A16;display:grid;place-items:center;mix-blend-mode:multiply;pointer-events:none;transform-origin:50% 50%}
+.zg-word{display:flex;font-family:var(--display);font-weight:800;font-size:min(18.5vw,40vh);line-height:.78;letter-spacing:.005em;color:#fff;white-space:nowrap;padding-top:.06em}
+.zg-word i{font-style:normal;display:block}
+.zg-hint{position:absolute;left:50%;bottom:5vh;translate:-50% 0;z-index:4;display:grid;justify-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);pointer-events:none}
+.zg-hint i{width:1px;height:42px;background:linear-gradient(var(--spark),transparent);animation:hintDrop 1.8s ease-in-out infinite;transform-origin:top}
+@keyframes hintDrop{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+/* the dark project section slides over the warm world with a rounded edge */
+#project{position:relative;z-index:3;background:var(--bg);border-radius:44px 44px 0 0;margin-top:-44px;box-shadow:0 -30px 60px -30px rgba(0,0,0,.6)}
+@media (prefers-reduced-motion:reduce){.zg{height:auto}.zg-pin{position:relative;height:100vh}.zg-ov,.zg-hint{display:none}}
+
+/* ============ LIBRARY: glass project folders ============ */
+.topo{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
+#page>.wrap{position:relative;z-index:1}
+.folds{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:30px 20px;perspective:1300px;padding-top:18px}
+.fold{position:relative;display:block;width:100%;aspect-ratio:1.36;border:0;background:none;padding:0;cursor:pointer;color:var(--text);font:inherit;text-align:left;transform-style:preserve-3d}
+.fold:disabled{cursor:default}
+.fold-back{position:absolute;left:0;right:0;bottom:0;top:13%;border-radius:20px;background:linear-gradient(180deg,#30374b,#1b2030);box-shadow:0 34px 50px -28px rgba(0,0,0,.9);transition:box-shadow .5s}
+.fold-back::before{content:"";position:absolute;right:0;top:-13%;width:48%;height:16%;background:#30374b;border-radius:16px 18px 0 0;clip-path:polygon(16% 0,100% 0,100% 100%,0 100%)}
+.papers{position:absolute;left:9%;right:9%;top:14%;bottom:18%;transform-style:preserve-3d}
+.paper{position:absolute;inset:0;border-radius:10px;overflow:hidden;background:linear-gradient(140deg,#1d2c78,#0b1024 70%);border:1px solid rgba(255,255,255,.12);box-shadow:0 10px 24px -8px rgba(0,0,0,.7);display:grid;align-content:space-between;padding:10px 12px;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.paper img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.paper b{position:relative;font-size:12px;line-height:1.3;font-weight:700;color:rgba(239,231,218,.9);max-width:85%}
+.paper em{position:relative;font-style:normal;font-family:var(--display);font-size:46px;line-height:.8;color:transparent;-webkit-text-stroke:1px rgba(140,190,255,.6);justify-self:end}
+.paper.p1{background:linear-gradient(140deg,#5a2a10,#170c06 70%)}.paper.p1 em{-webkit-text-stroke-color:rgba(255,160,90,.7)}
+.paper.p2{background:linear-gradient(140deg,#123f45,#06141a 70%)}.paper.p2 em{-webkit-text-stroke-color:rgba(111,224,255,.6)}
+.paper.p0{transform:translateY(-2%) rotate(-4deg)}.paper.p1{transform:translateY(2%) rotate(3deg)}.paper.p2{transform:translateY(6%) rotate(-1deg)}
+.fold:not(:disabled):hover .paper.p0,.fold.open .paper.p0{transform:translateY(-30%) rotate(-9deg) translateX(-6%)}
+.fold:not(:disabled):hover .paper.p1,.fold.open .paper.p1{transform:translateY(-22%) rotate(7deg) translateX(6%)}
+.fold:not(:disabled):hover .paper.p2,.fold.open .paper.p2{transform:translateY(-12%) rotate(-2deg)}
+.fold-front{position:absolute;left:0;right:0;bottom:0;height:66%;border-radius:20px;transform-origin:50% 100%;transform:rotateX(0);transition:transform .7s cubic-bezier(.2,.8,.2,1),background .4s;
+  background:linear-gradient(180deg,rgba(84,94,124,.42),rgba(28,33,48,.86));-webkit-backdrop-filter:blur(12px) saturate(1.3);backdrop-filter:blur(12px) saturate(1.3);border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 -8px 30px -18px rgba(0,0,0,.6);
+  display:grid;grid-template-columns:1fr auto;grid-template-rows:1fr auto;padding:16px 16px 16px 20px}
+.fold-front::before{content:"";position:absolute;left:-1px;top:-13%;width:40%;height:14%;border-radius:18px 0 0 0;background:rgba(84,94,124,.42);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-bottom:0;border-right:0;clip-path:polygon(0 0,80% 0,100% 100%,0 100%)}
+.fold-front::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(120deg,rgba(255,255,255,.14),transparent 40%);pointer-events:none}
+.fold:not(:disabled):hover .fold-front{transform:rotateX(-16deg)}
+.fold.open .fold-front{transform:rotateX(-30deg);background:linear-gradient(180deg,rgba(255,138,61,.35),rgba(40,26,20,.86))}
+.fold.open .fold-back{box-shadow:0 0 0 1.5px var(--spark),0 30px 60px -20px rgba(255,138,61,.45)}
+.fold-n{grid-column:1;grid-row:2;font-family:var(--display);font-size:clamp(36px,3.2vw,48px);line-height:.85}
+.fold-l{grid-column:1;grid-row:2;align-self:end;margin-left:clamp(48px,4vw,64px);display:grid;gap:1px;font-weight:700;font-size:14.5px;line-height:1.15}
+.fold-l small{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;font-weight:600}
+.fold-dots{grid-column:2;grid-row:2;width:44px;height:44px;border-radius:13px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;gap:3px;transition:background .3s}
+.fold-dots i{width:6px;height:6px;border-radius:50%;border:1.5px solid currentColor;opacity:.8}
+.fold-dots svg{width:18px;height:18px;opacity:.7}
+.fold:not(:disabled):hover .fold-dots,.fold.open .fold-dots{background:var(--spark);color:var(--ink)}
+.fold.empty{opacity:.55}.fold.future{opacity:.32}
+.fold.empty .fold-n{color:var(--muted)}
+.fold-panel{margin-top:34px;border:1px solid var(--line);border-radius:24px;padding:22px;background:rgba(10,15,34,.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.fold-ph{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.fold-ph h3{font-family:var(--display);font-weight:400;font-size:clamp(30px,3.4vw,44px);line-height:1;text-transform:uppercase;margin:4px 0 0}
+.fold-ph h3 em{font-style:normal;font-family:var(--mono);font-size:13px;color:var(--spark);vertical-align:top;margin-left:6px}
+@media (max-width:1000px){.folds{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.folds{gap:24px 12px}.fold-l{margin-left:0;grid-row:1;align-self:start}.fold-front{padding:12px}.fold-dots{width:36px;height:36px}.paper b{font-size:10px}.paper em{font-size:30px}}
+
 .tape{position:absolute;left:-20%;width:140%;height:46px;z-index:0;display:flex;align-items:center;overflow:hidden;pointer-events:none;box-shadow:0 10px 30px rgba(0,0,0,.5)}
 .tape.a{top:330px;background:var(--red);color:var(--ink);transform:rotate(-9deg)}
 .tape.b{top:430px;background:var(--ink);color:var(--spark);transform:rotate(7deg);border-block:2px solid var(--spark)}
@@ -944,7 +1018,7 @@ body.can-write .det-own{display:flex}
 .lib-mob{display:none;align-items:center;height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,138,61,.5);color:var(--spark);font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
 @media (max-width:980px){.lib-mob{display:inline-flex}}
 @media (max-width:560px){.lib-tabs{display:grid;grid-template-columns:1fr 1fr;width:100%}.lib-tabs button{padding:9px 10px}.lib-search{min-width:0;max-width:none;width:100%}.lib-bar{top:calc(env(safe-area-inset-top,0px) + 60px)}}
-.lib-bar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 66px);z-index:20;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-block:12px;margin-bottom:26px;background:linear-gradient(var(--bg) 70%,rgba(7,10,22,0))}
+.lib-bar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 66px);z-index:20;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-block:12px;margin-bottom:26px;background:linear-gradient(rgba(7,10,22,.82) 70%,rgba(7,10,22,0));-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .lib-tabs{position:relative;display:flex;flex-wrap:wrap;gap:2px;border:1px solid var(--line);border-radius:22px;padding:4px;background:var(--panel);max-width:100%}
 .lib-tabs::-webkit-scrollbar{display:none}
 .lib-tabs button{position:relative;z-index:1;border:0;background:none;color:var(--muted);font-weight:700;font-size:14px;padding:9px 16px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:color .3s}
@@ -1091,6 +1165,23 @@ body.can-write .det-own{display:flex}
           <div class="ab-card"><div class="ab-h"><span class="eyebrow" data-i18n="lawsTitle">Prinsip kerja</span></div><ol class="law-list" id="lawGrid"></ol></div>
         </aside>
       </div>
+    </div>
+  </section>
+
+  <section class="zg" id="zg" aria-label="Portofolio">
+    <div class="zg-pin">
+      <div class="zg-world" id="zgWorld">
+        <i class="zg-blob b1"></i><i class="zg-blob b2"></i><i class="zg-blob b3"></i>
+        <div class="zg-inner" id="zgInner">
+          <span class="zg-k"><b></b><span data-i18n="zgK">Portofolio · karya pilihan</span></span>
+          <h2 class="zg-h" data-i18n-html="zgHead">Karya yang <em>saya rakit</em></h2>
+          <p class="zg-p" data-i18n="zgSub">Dari prototipe kecil sampai project besar. Setiap karya dicatat di sini, lengkap dengan ceritanya.</p>
+          <div class="zg-stats" id="zgStats"></div>
+        </div>
+        <div class="zg-marq" aria-hidden="true"><div id="zgMarq"></div></div>
+      </div>
+      <div class="zg-ov" id="zgOv" aria-hidden="true"><span class="zg-word" id="zgWord"><i>P</i><i>O</i><i>R</i><i>T</i><i>O</i><i>F</i><i>O</i><i>L</i><i>I</i><i>O</i></span></div>
+      <div class="zg-hint" id="zgHint"><span data-i18n="zgHint">Scroll untuk masuk</span><i></i></div>
     </div>
   </section>
 
@@ -1769,7 +1860,7 @@ function renderToolbox(){
 }
 function renderTapes(){const n=(S.profile.name||'ZAFRAN').toUpperCase();const a=Array(10).fill('<span>PROJECT ✦ '+esc(n)+' ✦ JEJAK KARIER</span>').join('');const b=Array(10).fill('<span>'+t('tapeB')+' '+Math.max(1,semOf(today()))+'</span>').join('');
   document.querySelector('[data-tape=a]').innerHTML=a+a;document.querySelector('[data-tape=b]').innerHTML=b+b;}
-function renderAll(){renderHero();renderAbout();renderIcons();renderTapes();Wheel.render();renderChapters();renderAchHome();renderToolbox();renderLookback();if(curView!=='home')renderPage();animateNew();}
+function renderAll(){renderHero();if($('zgStats'))renderZg();renderAbout();renderIcons();renderTapes();Wheel.render();renderChapters();renderAchHome();renderToolbox();renderLookback();if(curView!=='home')renderPage();animateNew();}
 
 /* ================= new i18n strings ================= */
 Object.assign(T.id,{journeyLead:'Perjalanan kuliah dari semester 1 sampai wisuda, dibagi per bab. Geser untuk menjelajah, klik satu bab untuk detailnya.',seeJourney:'Lihat perjalanan lengkap',youHere:'Kamu di sini',lockedL:'Terkunci',doneL:'Selesai',goalL:'Wisuda',monthsLeft:'bulan lagi',entriesIn:'jejak',noneYet:'Belum ada jejak di semester ini',lockedHint:'Bab ini akan terbuka nanti',scrollHint:'Geser ke samping atau seret dengan mouse untuk menjelajah',
@@ -1960,7 +2051,7 @@ function goHome(section){pendingScroll=section||null;if(curView==='home'){if(sec
 function backBtn(sec){return '<button class="backbtn" type="button" data-back="'+(sec||'')+'">← '+t('back')+'</button>';}
 function renderPage(){
   const p=$('page');if(!p||curView==='home')return;
-  if(curView==='library'){if(!$('libBody'))p.innerHTML=libShell();renderLib(false);return;}
+  if(curView==='library'){if(!$('libBody')){p.innerHTML=libShell();Topo.start();}renderLib(false);return;}
   S.detailId=curView.slice(2);p.innerHTML=pageDetail(S.detailId);
 }
 function animatePage(){if(!G)return;const p=$('page');
@@ -2035,6 +2126,81 @@ function flagOf(title){const k=String(title||'').toLowerCase();const m=[['id',/i
   return m?'<span class="flag">'+FLAG[m[0]]+'</span>':'<span class="flag flag-txt">'+esc(String(title||'?').trim().slice(0,2).toUpperCase())+'</span>';}
 function bar5(e){const lv=Math.max(0,Math.min(5,parseInt(e.level,10)||0));const labs=e.type==='language'?t('langLv'):t('lv');let h='';for(let i=1;i<=5;i++)h+='<i class="'+(i<=lv?'on':'')+'"></i>';return '<span class="bar5" style="--c:'+(TYPEC[e.type]||'var(--red)')+'" title="'+(labs[lv-1]||'')+'">'+h+'</span><small class="bar5-l">'+(labs[lv-1]||'')+'</small>';}
 
+/* ================= ZOOM GATE ================= */
+const ZG={a:[800,420],done:false};
+function renderZg(){const p=byType('project'),a=achEntries().length;
+  $('zgStats').innerHTML='<span><b>'+String(p.length).padStart(2,'0')+'</b>'+esc(t('lProj'))+'</span><span><b>'+String(a).padStart(2,'0')+'</b>'+esc(t('lAch'))+'</span><span><b>'+String(byType('tool').length+byType('prog').length).padStart(2,'0')+'</b>Tools &amp; code</span>';
+  const words=(p.length?p.map(e=>e.title):['Robotika','AI / ML','Arduino','Python','C++']).slice(0,10);const row=words.map(w=>'<span>'+esc(w)+' ✦</span>').join('');$('zgMarq').innerHTML=row+row+row;}
+function zgAnchor(){const ov=$('zgOv'),i=$('zgWord').children[8];if(!ov||!i)return;const t0=ov.style.transform;ov.style.transform='none';
+  const o=ov.getBoundingClientRect(),r=i.getBoundingClientRect();ZG.a=[r.left-o.left+r.width/2,r.top-o.top+r.height*.5];ZG.c=[o.width/2,o.height/2];ov.style.transform=t0;}
+function zgSet(p){/* p 0..1 across the pinned scroll: zoom into the stem of the I until it fills the screen */
+  const z=Math.min(1,Math.max(0,(p-.08)/.62)),e=z*z*z,s=Math.pow(160,e),[ax,ay]=ZG.a,[cx,cy]=ZG.c||[innerWidth/2,innerHeight/2],k=Math.min(1,z*1.8);
+  const ov=$('zgOv');ov.style.transformOrigin=ax+'px '+ay+'px';ov.style.transform='translate('+((cx-ax)*k).toFixed(2)+'px,'+((cy-ay)*k).toFixed(2)+'px) scale('+s.toFixed(4)+')';
+  ov.style.visibility=z>=.999?'hidden':'visible';
+  $('zgHint').style.opacity=String(Math.max(0,1-p*8));
+  const ip=Math.min(1,Math.max(0,(p-.6)/.3)),ie=1-Math.pow(1-ip,3);const inn=$('zgInner');inn.style.opacity=String(ie);inn.style.transform='translateY('+((1-ie)*60).toFixed(1)+'px) scale('+(1.15-.15*ie).toFixed(3)+')';
+  $('zgWorld').style.transform='scale('+(1.25-.25*z).toFixed(3)+')';}
+function setupZg(){const zg=$('zg');if(!zg)return;renderZg();
+  const go=()=>{zgAnchor();if(!ST||reduce){$('zgOv').style.display='none';$('zgHint').style.display='none';return;}
+    ST.create({trigger:zg,start:'top top',end:'bottom bottom',scrub:.6,onUpdate:s=>zgSet(s.progress)});zgSet(0);ST.refresh();};
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(go);else go();
+  window.addEventListener('resize',()=>{zgAnchor();});}
+
+/* ================= LIBRARY background: living topographic map (marching squares over drifting noise) ================= */
+const Topo=(()=>{const P=new Uint8Array(512);{const p=[...Array(256).keys()];for(let i=255;i>0;i--){const j=(Math.random()*(i+1))|0;[p[i],p[j]]=[p[j],p[i]];}for(let i=0;i<512;i++)P[i]=p[i&255];}
+  const fade=t=>t*t*(3-2*t),lerp=(a,b,t)=>a+(b-a)*t,h=(x,y,z)=>P[P[P[x&255]+(y&255)]+(z&255)]/255;
+  function n3(x,y,z){const X=Math.floor(x),Y=Math.floor(y),Z=Math.floor(z),fx=fade(x-X),fy=fade(y-Y),fz=fade(z-Z);
+    const a=lerp(lerp(h(X,Y,Z),h(X+1,Y,Z),fx),lerp(h(X,Y+1,Z),h(X+1,Y+1,Z),fx),fy),b=lerp(lerp(h(X,Y,Z+1),h(X+1,Y,Z+1),fx),lerp(h(X,Y+1,Z+1),h(X+1,Y+1,Z+1),fx),fy);return lerp(a,b,fz);}
+  const COLS=[[61,107,255],[111,224,255],[180,155,255],[255,138,61],[255,196,107]];
+  let cv,cx,raf=0,t=Math.random()*50,mx=-9999,my=-9999,tm=-9999,tmx=-9999,W=0,H=0,DPR=1,frame=0,ripple=[];
+  function size(){DPR=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*DPR;cv.height=H*DPR;cx.setTransform(DPR,0,0,DPR,0,0);}
+  function field(x,y){let v=n3(x*.0032,y*.0032,t)*.62+n3(x*.0085,y*.0085,t*1.6+9)*.28+n3(x*.02,y*.02,t*2+3)*.1;
+    const dx=x-tmx,dy=y-tm,d2=dx*dx+dy*dy;v+=.32*Math.exp(-d2/(2*150*150));
+    for(const r of ripple){const d=Math.sqrt((x-r.x)**2+(y-r.y)**2);v+=.08*Math.sin(d*.05-r.a*10)*Math.exp(-((d-r.a*700)**2)/(2*90*90))*(1-r.a);}return v;}
+  function draw(){const S=16,nx=Math.ceil(W/S)+1,ny=Math.ceil(H/S)+1,g=new Float32Array(nx*ny);
+    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++)g[j*nx+i]=field(i*S,j*S);
+    cx.clearRect(0,0,W,H);cx.lineWidth=1.15;const L=11;
+    for(let k=0;k<L;k++){const th=.18+k*.065,c=COLS[k%COLS.length],major=k%3===0;cx.strokeStyle='rgba('+c[0]+','+c[1]+','+c[2]+','+(major?.42:.2)+')';cx.lineWidth=major?1.5:1;cx.beginPath();
+      for(let j=0;j<ny-1;j++)for(let i=0;i<nx-1;i++){const a=g[j*nx+i],b=g[j*nx+i+1],c2=g[(j+1)*nx+i+1],d=g[(j+1)*nx+i];
+        const m=(a>th?8:0)|(b>th?4:0)|(c2>th?2:0)|(d>th?1:0);if(m===0||m===15)continue;const x=i*S,y=j*S;
+        const T=[x+S*(th-a)/(b-a),y],R=[x+S,y+S*(th-b)/(c2-b)],B=[x+S*(th-d)/(c2-d),y+S],Lf=[x,y+S*(th-a)/(d-a)];
+        const seg=(p,q)=>{cx.moveTo(p[0],p[1]);cx.lineTo(q[0],q[1]);};
+        switch(m){case 1:case 14:seg(Lf,B);break;case 2:case 13:seg(B,R);break;case 3:case 12:seg(Lf,R);break;case 4:case 11:seg(T,R);break;
+          case 5:seg(Lf,T);seg(B,R);break;case 6:case 9:seg(T,B);break;case 7:case 8:seg(Lf,T);break;case 10:seg(T,R);seg(Lf,B);break;}}
+      cx.stroke();}
+    /* soft glow where the cursor is */
+    if(tmx>-999){const gr=cx.createRadialGradient(tmx,tm,0,tmx,tm,220);gr.addColorStop(0,'rgba(255,138,61,.10)');gr.addColorStop(1,'rgba(255,138,61,0)');cx.fillStyle=gr;cx.beginPath();cx.arc(tmx,tm,220,0,Math.PI*2);cx.fill();}}
+  function loop(){raf=0;if(!cv||!document.body.contains(cv)||curView!=='library'){stop();return;}
+    frame++;t+=.0045;tmx+=(mx-tmx)*.08;tm+=(my-tm)*.08;ripple=ripple.filter(r=>(r.a+=.012)<1);if(frame%2===0)draw();raf=requestAnimationFrame(loop);}
+  function onMove(e){mx=e.clientX;my=e.clientY;if(tmx<-999){tmx=mx;tm=my;}}
+  function onDown(e){ripple.push({x:e.clientX,y:e.clientY,a:0});if(ripple.length>4)ripple.shift();}
+  function start(){cv=$('topo');if(!cv)return;cx=cv.getContext('2d');size();
+    if(reduce){draw();return;}if(!raf)raf=requestAnimationFrame(loop);}
+  function stop(){if(raf)cancelAnimationFrame(raf);raf=0;}
+  addEventListener('resize',()=>{if(cv&&document.body.contains(cv)){size();if(reduce)draw();}});addEventListener('pointermove',onMove,{passive:true});addEventListener('pointerdown',onDown,{passive:true});
+  return{start,stop};})();
+
+/* ================= LIBRARY: project folders per semester ================= */
+const LOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+function foldGroups(list){const g={};list.forEach(e=>{const s=Math.max(1,Math.min(8,semOf(e.date)||1));(g[s]=g[s]||[]).push(e);});return g;}
+function paperHtml(e,i){const img=blob(e.image);return '<i class="paper p'+i+'">'+(img?'<img src="'+img+'" alt="" loading="lazy">':'<b>'+esc(e.title||'')+'</b><em>'+String(byType('project').indexOf(e)+1).padStart(2,'0')+'</em>')+'</i>';}
+function foldersHtml(projs){const g=foldGroups(projs),cs=Math.max(1,semOf(today()));
+  if(LIB.fold===undefined){const ks=Object.keys(g).map(Number).sort((a,b)=>b-a);LIB.fold=ks[0]||0;}
+  let h='<div class="folds">';
+  for(let n=1;n<=8;n++){const it=g[n]||[],has=it.length>0,fut=n>cs;
+    h+='<button type="button" class="fold'+(has?'':' empty')+(fut?' future':'')+(LIB.fold===n&&has?' open':'')+'" data-fold="'+n+'"'+(has?'':' disabled')+' aria-expanded="'+(LIB.fold===n&&has)+'">'+
+      '<span class="fold-back"></span><span class="papers">'+it.slice(0,3).reverse().map((e,i)=>paperHtml(e,2-i)).join('')+'</span>'+
+      '<span class="fold-front"><span class="fold-n">'+(has?String(it.length).padStart(2,'0'):'00')+'</span><span class="fold-l">Semester '+n+'<small>'+(has?t('lProj'):fut?t('foldSoon'):t('foldNone'))+'</small></span><span class="fold-dots">'+(fut?LOCK:'<i></i><i></i><i></i>')+'</span></span></button>';}
+  h+='</div>';
+  const op=g[LIB.fold];
+  if(op&&op.length)h+='<div class="fold-panel" id="foldPanel"><div class="fold-ph"><div><span class="eyebrow">'+esc(semLabel(LIB.fold)[1])+'</span><h3>Semester '+LIB.fold+' <em>'+op.length+' '+t('projN')+'</em></h3></div><button type="button" class="btn sm ghost" data-fold="'+LIB.fold+'">'+t('foldClose')+' ✕</button></div><div class="lib-grid">'+op.map(projCard).join('')+'</div></div>';
+  return h;}
+function toggleFold(n){LIB.fold=LIB.fold===n?0:n;const b=$('libBody');if(!b)return;
+  const before=b.querySelector('.folds');const y=before?before.getBoundingClientRect().top:0;b.innerHTML=libBody();moveLibPill();
+  const p=$('foldPanel');if(p&&G&&!reduce){G.from(p,{opacity:0,y:40,duration:.7,ease:'expo.out',clearProps:'transform,opacity'});lib3dIn(p);
+    G.from(b.querySelectorAll('.fold.open .paper'),{y:40,opacity:0,duration:.8,stagger:.08,ease:'back.out(1.6)',clearProps:'transform,opacity'});}
+  if(p)setTimeout(()=>{const r=p.getBoundingClientRect();if(r.top>innerHeight*.75){if(lenis)lenis.scrollTo(p,{offset:-120});else p.scrollIntoView({behavior:'smooth',block:'start'});}},120);}
+
 /* ================= WISUDA: 3D semester city, progress ring, countdown ================= */
 const GRAD={rx:58,rz:-38,built:false,grown:false,cd:0};
 function gradDates(){const st=new Date(angk()+'-08-01T00:00:00'),[y,m]=gradTarget().split('-').map(Number),en=new Date(y,m-1,28,9,0,0);return{st,en};}
@@ -2096,7 +2262,7 @@ function ringFill(instant){GRAD.ringDone=true;const fg=$('ringFg'),C=2*Math.PI*8
 /* ================= LIBRARY: 3D tilt, glare, depth entrance ================= */
 const LIB3D={raf:0};
 document.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||curView!=='library')return;
-  const c=e.target.closest&&e.target.closest('#page .lib-card,#page .hof-card');
+  const c=e.target.closest&&e.target.closest('#page .lib-card,#page .hof-card,#page .fold:not(:disabled)');
   if(LIB3D.cur&&LIB3D.cur!==c){const o=LIB3D.cur;o.classList.remove('tilt');o.style.transform='';LIB3D.cur=null;}
   if(c){LIB3D.cur=c;c.classList.add('tilt');const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
     c.style.transform='perspective(1000px) rotateX('+((.5-y)*16).toFixed(2)+'deg) rotateY('+((x-.5)*20).toFixed(2)+'deg) translateZ(18px)';
@@ -2105,6 +2271,7 @@ document.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||curView!
 },{passive:true});
 document.addEventListener('pointerleave',()=>{if(LIB3D.cur){LIB3D.cur.classList.remove('tilt');LIB3D.cur.style.transform='';LIB3D.cur=null;}});
 function lib3dIn(b){if(!G||reduce)return;
+  const fl=b.querySelectorAll('.fold');if(fl.length)G.fromTo(fl,{rotateX:-80,y:70,opacity:0,transformOrigin:'50% 100%'},{rotateX:0,y:0,opacity:1,duration:1.3,ease:'expo.out',stagger:{each:.07,grid:'auto',from:'start'},clearProps:'transform,opacity'});
   const cards=b.querySelectorAll('.lib-card,.hof-card'),rows=b.querySelectorAll('.lib-row,.entry'),heads=b.querySelectorAll('.lib-sec-h');
   heads.forEach(h=>{h.style.setProperty('--ln',0);requestAnimationFrame(()=>requestAnimationFrame(()=>h.style.setProperty('--ln',1)));});
   if(cards.length)G.fromTo(cards,{rotateX:-75,y:90,z:-260,opacity:0,transformOrigin:'50% 0%'},{rotateX:0,y:0,z:0,opacity:1,duration:1.25,ease:'expo.out',stagger:{each:.06,grid:'auto',from:'start'},clearProps:'transform,opacity'});
@@ -2261,15 +2428,15 @@ Object.assign(T.en,{profK:'Profile',daysW:'days',nJourney:'Journey',jrEyebrow:'J
   ab_aboutMottoSub:'Starting with a simple prototype is worth more than waiting for a perfect plan.',
   ab_aboutStory:'I am Zafran Ali Ihsan Nasution, a *Computer Science* student at Universitas Sumatera Utara (class of 2026) whose main interests are *robotics* and *artificial intelligence*. I am drawn to the point where software meets the physical world: how a system can read its surroundings through sensors, process that data and make decisions on its own. Right now I am building my foundation through *C++* and *Python*, microcontroller experiments with *Arduino*, and the fundamentals of *machine learning*. I believe the best way to understand technology is to build it, test it and improve it again and again. Going forward, I want to develop intelligent robotic systems that create real value, and this portfolio is an open record of every step along the way.',
   ab_aboutLaws:'Learn by building | I test new concepts through small projects so they do not stay theoretical.\nIterate without fear of failure | Every error is data. Build, test, evaluate, then improve.\nDocument and share | I keep clear notes on the process so it can be revisited and help others.'});
-Object.assign(T.id,{nTools:'Tools',gsHint:'Arahkan kursor untuk memutar · klik menara untuk membuka semesternya',ringK:'perjalanan',cdK:'Hitung mundur menuju wisuda',cdL:['hari','jam','menit','detik'],cdUntil:'Target wisuda',youHere:'KAMU DI SINI',gradWord:'WISUDA',semEmpty:'Belum ada jejak',wsHead:'Perlengkapan untuk <em>merakit ide</em>',wsDesc:'Semua yang saya pakai untuk mengubah ide menjadi sesuatu yang benar-benar berjalan: tools dan bahasa pemrograman di layar kiri, keahlian dan bahasa komunikasi di layar kanan. Daftarnya terus bertambah setiap semester.',tProg:'Bahasa pemrograman',tLanguage:'Bahasa',noProg:'Tambah jejak berjenis Bahasa Pemrograman, misalnya C++ atau Python.',langLv:['Sedikit','Dasar','Menengah','Mahir','Bahasa ibu'],toolTitle:'Tools, kode <em>&amp; bahasa</em>',nLib:'Library',libEyebrow:'Arsip lengkap',libLead:'Semua project, perjalanan kuliah, dan pencapaian dalam satu tempat. Pilih kategori, cari, lalu buka salah satu untuk membaca detailnya.',lAll:'Semua',lProj:'Project',lJourney:'Perjalanan',lAch:'Achievement',libSearch:'Cari judul, cerita, atau tag…',seeAllN:'Lihat semua',loadMore:'Tampilkan lebih banyak',noResult:'Tidak ada yang cocok dengan pencarianmu.',latest:'Jejak terbaru',showing:'Menampilkan',of:'dari',seeAllProj:'Lihat semua project',allTier:'Semua tingkat'});
-Object.assign(T.en,{nTools:'Tools',gsHint:'Move your cursor to rotate · click a tower to open that semester',ringK:'of the journey',cdK:'Countdown to graduation',cdL:['days','hrs','min','sec'],cdUntil:'Expected graduation',youHere:'YOU ARE HERE',gradWord:'GRADUATION',semEmpty:'No entries yet',wsHead:'The kit for <em>building ideas</em>',wsDesc:'Everything I use to turn ideas into things that actually run: tools and programming languages on the left screens, skills and spoken languages on the right. The list grows every semester.',tProg:'Programming languages',tLanguage:'Languages',noProg:'Add a Programming entry, for example C++ or Python.',langLv:['A little','Basic','Intermediate','Advanced','Native'],toolTitle:'Tools, code <em>&amp; languages</em>',nLib:'Library',libEyebrow:'Complete archive',libLead:'Every project, college milestone, and achievement in one place. Pick a category, search, then open one to read the details.',lAll:'All',lProj:'Projects',lJourney:'Journey',lAch:'Achievements',libSearch:'Search titles, stories, or tags…',seeAllN:'See all',loadMore:'Show more',noResult:'Nothing matches your search.',latest:'Latest entries',showing:'Showing',of:'of',seeAllProj:'See all projects',allTier:'All tiers'});
+Object.assign(T.id,{zgK:'Portofolio · karya pilihan',zgHead:'Karya yang <em>saya rakit</em>',zgSub:'Dari prototipe kecil sampai project besar. Setiap karya dicatat di sini, lengkap dengan ceritanya.',zgHint:'Scroll untuk masuk',foldSoon:'Segera',foldNone:'Belum ada project',foldClose:'Tutup folder',nTools:'Tools',gsHint:'Arahkan kursor untuk memutar · klik menara untuk membuka semesternya',ringK:'perjalanan',cdK:'Hitung mundur menuju wisuda',cdL:['hari','jam','menit','detik'],cdUntil:'Target wisuda',youHere:'KAMU DI SINI',gradWord:'WISUDA',semEmpty:'Belum ada jejak',wsHead:'Perlengkapan untuk <em>merakit ide</em>',wsDesc:'Semua yang saya pakai untuk mengubah ide menjadi sesuatu yang benar-benar berjalan: tools dan bahasa pemrograman di layar kiri, keahlian dan bahasa komunikasi di layar kanan. Daftarnya terus bertambah setiap semester.',tProg:'Bahasa pemrograman',tLanguage:'Bahasa',noProg:'Tambah jejak berjenis Bahasa Pemrograman, misalnya C++ atau Python.',langLv:['Sedikit','Dasar','Menengah','Mahir','Bahasa ibu'],toolTitle:'Tools, kode <em>&amp; bahasa</em>',nLib:'Library',libEyebrow:'Arsip lengkap',libLead:'Semua project, perjalanan kuliah, dan pencapaian dalam satu tempat. Pilih kategori, cari, lalu buka salah satu untuk membaca detailnya.',lAll:'Semua',lProj:'Project',lJourney:'Perjalanan',lAch:'Achievement',libSearch:'Cari judul, cerita, atau tag…',seeAllN:'Lihat semua',loadMore:'Tampilkan lebih banyak',noResult:'Tidak ada yang cocok dengan pencarianmu.',latest:'Jejak terbaru',showing:'Menampilkan',of:'dari',seeAllProj:'Lihat semua project',allTier:'Semua tingkat'});
+Object.assign(T.en,{zgK:'Portfolio · selected work',zgHead:'Things <em>I have built</em>',zgSub:'From small prototypes to bigger builds. Every piece of work is logged here with its story.',zgHint:'Scroll to dive in',foldSoon:'Coming up',foldNone:'No projects yet',foldClose:'Close folder',nTools:'Tools',gsHint:'Move your cursor to rotate · click a tower to open that semester',ringK:'of the journey',cdK:'Countdown to graduation',cdL:['days','hrs','min','sec'],cdUntil:'Expected graduation',youHere:'YOU ARE HERE',gradWord:'GRADUATION',semEmpty:'No entries yet',wsHead:'The kit for <em>building ideas</em>',wsDesc:'Everything I use to turn ideas into things that actually run: tools and programming languages on the left screens, skills and spoken languages on the right. The list grows every semester.',tProg:'Programming languages',tLanguage:'Languages',noProg:'Add a Programming entry, for example C++ or Python.',langLv:['A little','Basic','Intermediate','Advanced','Native'],toolTitle:'Tools, code <em>&amp; languages</em>',nLib:'Library',libEyebrow:'Complete archive',libLead:'Every project, college milestone, and achievement in one place. Pick a category, search, then open one to read the details.',lAll:'All',lProj:'Projects',lJourney:'Journey',lAch:'Achievements',libSearch:'Search titles, stories, or tags…',seeAllN:'See all',loadMore:'Show more',noResult:'Nothing matches your search.',latest:'Latest entries',showing:'Showing',of:'of',seeAllProj:'See all projects',allTier:'All tiers'});
 const LIB={tab:'all',q:'',limit:12,tier:'all'};
 const LIBTABS=['all','project','jejak','achievement'];
 function libFilter(list){const q=LIB.q.trim().toLowerCase();if(!q)return list;return list.filter(e=>((e.title||'')+' '+(e.desc||'')+' '+(e.tags||[]).join(' ')+' '+tl(e.type)).toLowerCase().includes(q));}
 function libCount(k){return k==='project'?byType('project').length:k==='achievement'?achEntries().length:k==='jejak'?S.entries.length:S.entries.length;}
 function libShell(){
   const lab={all:t('lAll'),project:t('lProj'),jejak:t('lJourney'),achievement:t('lAch')};
-  return '<div class="wrap"><div class="page-head">'+backBtn()+'<div class="lib-floor" aria-hidden="true"><i></i></div><span class="eyebrow">'+t('libEyebrow')+'</span><div style="perspective:900px"><h1 class="page-title t3d">Libr<em>ary</em></h1></div><p class="page-lead">'+t('libLead')+'</p></div>'+
+  return '<canvas class="topo" id="topo" aria-hidden="true"></canvas><div class="wrap"><div class="page-head">'+backBtn()+'<span class="eyebrow">'+t('libEyebrow')+'</span><div style="perspective:900px"><h1 class="page-title t3d">Libr<em>ary</em></h1></div><p class="page-lead">'+t('libLead')+'</p></div>'+
   '<div class="lib-bar"><div class="lib-tabs" id="libTabs" role="tablist"><span class="lib-pill" id="libPill"></span>'+LIBTABS.map(k=>'<button type="button" role="tab" data-tab="'+k+'" aria-selected="'+(LIB.tab===k)+'">'+lab[k]+' <em>'+libCount(k)+'</em></button>').join('')+'</div>'+
   '<label class="lib-search" for="libQ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="search" id="libQ" placeholder="'+esc(t('libSearch'))+'" value="'+esc(LIB.q)+'" autocomplete="off"></label></div><div id="libBody"></div></div>';
 }
@@ -2282,11 +2449,11 @@ function libBody(){
   const none='<div class="empty"><b>'+(S.loaded?t('noResult'):t('loadingE'))+'</b></div>';
   if(LIB.tab==='all'){
     let h='';
-    h+='<section class="lib-sec">'+secHead(t('lProj'),projs.length,'project')+(projs.length?'<div class="lib-grid">'+projs.slice(0,6).map(projCard).join('')+'</div>':none)+'</section>';
+    h+='<section class="lib-sec">'+secHead(t('lProj'),projs.length,'project')+(projs.length?(LIB.q.trim()?'<div class="lib-grid">'+projs.slice(0,6).map(projCard).join('')+'</div>':foldersHtml(projs)):none)+'</section>';
     h+='<section class="lib-sec">'+secHead(t('lAch'),achs.length,'achievement')+(achs.length?'<div class="hof-grid">'+achs.slice(0,4).map(achCard).join('')+'</div>':none)+'</section>';
     h+='<section class="lib-sec">'+secHead(t('latest'),all.length,'jejak')+(all.length?'<div class="lib-rows">'+all.slice(0,8).map(rowCard).join('')+'</div>':none)+'</section>';
     return h;}
-  if(LIB.tab==='project'){if(!projs.length)return none;const shown=projs.slice(0,LIB.limit);
+  if(LIB.tab==='project'){if(!projs.length)return none;if(!LIB.q.trim())return foldersHtml(projs);const shown=projs.slice(0,LIB.limit);
     return '<div class="lib-grid">'+shown.map(projCard).join('')+'</div>'+(projs.length>shown.length?'<div class="lib-more"><span>'+t('showing')+' '+shown.length+' '+t('of')+' '+projs.length+'</span><button type="button" class="btn" data-more>'+t('loadMore')+'</button></div>':'');}
   if(LIB.tab==='achievement'){const cnt={};achs.forEach(e=>{const k=tierOf(e);cnt[k]=(cnt[k]||0)+1;});const list=LIB.tier==='all'?achs:achs.filter(e=>tierOf(e)===LIB.tier);
     return '<div class="filters">'+'<button type="button" class="chip" data-tier="all" aria-pressed="'+(LIB.tier==='all')+'">'+t('allTier')+' <em>'+achs.length+'</em></button>'+TIERK.filter(k=>cnt[k]).map(k=>'<button type="button" class="chip" data-tier="'+k+'" aria-pressed="'+(LIB.tier===k)+'" style="'+tierVars(k)+'"><span class="tdot"></span>'+t('tiers')[k]+' <em>'+cnt[k]+'</em></button>').join('')+'</div>'+
@@ -2312,7 +2479,8 @@ function setLibTab(k,fromHash){if(!LIBTABS.includes(k))k='all';const changed=k!=
   if(curView==='library'){const lb=$('libBody');if(changed&&G&&!reduce&&lb&&lb.children.length){G.to(lb,{opacity:0,rotateX:10,y:-24,duration:.22,ease:'power2.in',onComplete:()=>{G.set(lb,{clearProps:'all'});renderLib(true);}});}else renderLib(true);const top=$('libTabs');if(changed&&top&&top.getBoundingClientRect().top<70){if(lenis)lenis.scrollTo(top,{offset:-90});else top.scrollIntoView({behavior:'smooth'});}}}
 let libT=0;
 document.addEventListener('input',e=>{if(e.target&&e.target.id==='libQ'){LIB.q=e.target.value;LIB.limit=12;clearTimeout(libT);libT=setTimeout(()=>renderLib(true),160);}});
-document.addEventListener('click',e=>{const x=e.target.closest('[data-tab],[data-more],[data-tier]');if(!x||curView!=='library')return;
+document.addEventListener('click',e=>{const x=e.target.closest('[data-tab],[data-more],[data-tier],[data-fold]');if(!x||curView!=='library')return;
+  if(x.dataset.fold){toggleFold(+x.dataset.fold);return;}
   if(x.dataset.tab){setLibTab(x.dataset.tab);return;}
   if(x.hasAttribute('data-more')){const b=$('libBody');const before=b.querySelectorAll('.lib-card').length;LIB.limit+=12;b.innerHTML=libBody();moveLibPill();if(G){const fresh=Array.from(b.querySelectorAll('.lib-card')).slice(before);G.from(fresh,{y:50,opacity:0,duration:.8,stagger:.04,ease:'expo.out',clearProps:'transform'});}return;}
   if(x.dataset.tier){LIB.tier=x.dataset.tier;renderLib(true);}});
@@ -2328,7 +2496,7 @@ function animateNew(){
   requestAnimationFrame(()=>ST.refresh());
 }
 function setupScroll(){
-  setupChapters();setupAbout();setupWs();setupGrad();
+  setupChapters();setupAbout();setupWs();setupGrad();setupZg();
   if(!ST)return;
   document.querySelectorAll('[data-split]').forEach(el=>{ST.create({trigger:el,start:'top 86%',once:true,onEnter:()=>{G.from(el.querySelectorAll('.c'),{yPercent:115,rotate:5,duration:1.1,stagger:.025,ease:'expo.out'});}});});
   document.querySelectorAll('[data-fade]').forEach(el=>G.from(el,{y:40,opacity:0,filter:'blur(8px)',duration:1.1,ease:'expo.out',clearProps:'filter',scrollTrigger:{trigger:el,start:'top 88%',once:true}}));
