@@ -1114,15 +1114,7 @@ main{counter-reset:sec}
 .grain{position:fixed;inset:-50%;z-index:400;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(5) infinite}
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-2%)}60%{transform:translate(-2%,-4%)}80%{transform:translate(4%,2%)}100%{transform:translate(0,0)}}
-/* cursor follower: a ring that trails the pointer and swells over anything clickable */
-.cur{position:fixed;left:0;top:0;z-index:401;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:1.5px solid rgba(255,255,255,.9);pointer-events:none;mix-blend-mode:difference;transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),margin .35s cubic-bezier(.2,.8,.2,1),background .3s,opacity .3s;opacity:0;display:grid;place-items:center}
-.cur.on{opacity:1}
-.cur.big{width:70px;height:70px;margin:-35px 0 0 -35px;background:rgba(255,255,255,.95);border-color:transparent}
-.cur.down{width:24px;height:24px;margin:-12px 0 0 -12px}
-.cur b{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:#000;opacity:0;transition:opacity .2s;text-transform:uppercase}
-.cur.big b{opacity:1}
-@media (hover:none),(pointer:coarse){.cur{display:none}}
-@media (prefers-reduced-motion:reduce){.grain{animation:none}.cur{display:none}}
+@media (prefers-reduced-motion:reduce){.grain{animation:none}}
 /* ============ TENTANG: 3D bento ============ */
 .w{padding:0 .1em .3em 0;margin:0 -.1em -.3em 0}
 .big-title em,.page-title em,.zg-h em,.intro h1 em{line-height:1}
@@ -1463,7 +1455,7 @@ main{counter-reset:sec}
 <section class="page" id="page" hidden></section>
 <div class="curtain" id="curtain" aria-hidden="true"><i class="cv c1"></i><i class="cv c2"><b></b></i></div>
 
-<div class="grain" aria-hidden="true"></div><div class="cur" id="cur" aria-hidden="true"><b></b></div>
+<div class="grain" aria-hidden="true"></div>
 <div class="dock" id="dock" hidden><button class="btn sm ghost" type="button" id="editProfileBtn">Edit profil</button><button class="btn sm red" type="button" data-add>+ Tambah jejak</button></div>
 
 <dialog id="cardDlg" aria-label="Kartu identitas">
@@ -2280,17 +2272,6 @@ function setupBento(){
     const st=$('bpStage');if(st&&!st.classList.contains('stack')){const inS=e.target.closest&&e.target.closest('#bpStage');
       if(inS){const r=st.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;st.style.transform='rotateX('+(-y*9).toFixed(2)+'deg) rotateY('+(x*11).toFixed(2)+'deg)';}else if(st.style.transform)st.style.transform='';}},{passive:true});
 }
-
-/* ================= cursor follower ================= */
-(function(){const c=$('cur');if(!c||reduce||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
-  let x=-100,y=-100,px=-100,py=-100,raf=0;const lab=c.querySelector('b');
-  const loop=()=>{px+=(x-px)*.2;py+=(y-py)*.2;c.style.transform='translate3d('+px.toFixed(1)+'px,'+py.toFixed(1)+'px,0)';raf=(Math.abs(x-px)+Math.abs(y-py)>.2)?requestAnimationFrame(loop):0;};
-  addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;x=e.clientX;y=e.clientY;c.classList.add('on');if(!raf)raf=requestAnimationFrame(loop);
-    const t=e.target.closest&&e.target.closest('a,button,[data-detail],.fold,.tw,.lib-card,.hof-card,label,input,textarea,select,[role=tab]');
-    const typing=t&&/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName);c.style.opacity=typing?'0':'';
-    const big=!!t&&!typing;c.classList.toggle('big',big);lab.textContent=big&&t.matches('[data-detail],.lib-card,.hof-card,.fold:not(:disabled)')?t('curOpen'):'';},{passive:true});
-  addEventListener('pointerdown',()=>c.classList.add('down'));addEventListener('pointerup',()=>c.classList.remove('down'));
-  document.addEventListener('mouseleave',()=>c.classList.remove('on'));})();
 
 /* ================= ZOOM GATE ================= */
 const ZG={a:[800,420],done:false};
