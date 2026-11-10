@@ -1123,6 +1123,83 @@ main{counter-reset:sec}
 .cur.big b{opacity:1}
 @media (hover:none),(pointer:coarse){.cur{display:none}}
 @media (prefers-reduced-motion:reduce){.grain{animation:none}.cur{display:none}}
+/* ============ TENTANG: 3D bento ============ */
+.w{padding:0 .1em .3em 0;margin:0 -.1em -.3em 0}
+.big-title em,.page-title em,.zg-h em,.intro h1 em{line-height:1}
+.ab-bento{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);grid-template-rows:auto auto;gap:18px;margin-top:20px;perspective:1600px}
+.tile{position:relative;border-radius:26px;border:1px solid var(--line);background:var(--panel);overflow:hidden;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.8,.2,1),border-color .4s,box-shadow .5s;--gx:50%;--gy:50%}
+.tile::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(500px circle at var(--gx) var(--gy),rgba(255,255,255,.09),transparent 45%);opacity:0;transition:opacity .4s;z-index:5}
+.tile.tilt::after{opacity:1}
+.tile.tilt{border-color:#33427a;box-shadow:0 40px 80px -40px rgba(0,0,0,.9),0 0 0 1px rgba(111,160,255,.12)}
+/* profile */
+.t-prof{grid-row:1/3;padding:30px 32px 28px;display:grid;align-content:start;gap:16px;background:radial-gradient(120% 80% at 0 0,rgba(61,107,255,.16),transparent 55%),var(--panel)}
+.tile-orb{position:absolute;width:360px;height:360px;border-radius:50%;left:var(--gx);top:var(--gy);translate:-50% -50%;background:radial-gradient(closest-side,rgba(255,138,61,.16),transparent);pointer-events:none;transition:left .25s ease-out,top .25s ease-out;z-index:0}
+.t-prof>*:not(.tile-orb){position:relative;z-index:1}
+.t-prof .ab-h{margin:0}
+.ab-lead{margin:0;font-family:var(--title);font-weight:600;font-size:clamp(19px,1.75vw,25px);line-height:1.3;letter-spacing:-.035em;color:var(--text);transform:translateZ(30px)}
+.ab-lead strong{font-family:var(--serif);font-style:italic;font-weight:400;font-size:1.15em;letter-spacing:-.01em;color:var(--spark)}
+.ab-rest{margin:0;font-size:15.5px;line-height:1.8;color:rgba(239,231,218,.7);transform:translateZ(14px)}
+.ab-rest strong{color:var(--text);font-weight:600;background:linear-gradient(transparent 62%,rgba(61,107,255,.4) 0) no-repeat 0 0/0% 100%;transition:background-size .9s cubic-bezier(.2,.8,.2,1),color .3s}
+.t-prof.in .ab-rest strong{background-size:100% 100%}
+.ab-rest strong.hl,.ab-lead strong.hl{color:var(--cyan);background-image:linear-gradient(transparent 62%,rgba(111,224,255,.45) 0)}
+.kw{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;transform:translateZ(40px)}
+.kw button{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);border-radius:999px;padding:7px 13px;cursor:pointer;animation:kwBob 4s ease-in-out infinite;animation-delay:calc(var(--i)*-.6s);transition:background .3s,color .3s,border-color .3s}
+.kw button:hover,.kw button.on{background:var(--spark);color:var(--ink);border-color:var(--spark)}
+@keyframes kwBob{50%{transform:translateY(-4px)}}
+/* motto: flips over to show the build loop */
+.t-motto{min-height:250px;background:none;border:0;overflow:visible;cursor:pointer;outline:none}
+.flip-in{position:relative;width:100%;height:100%;min-height:250px;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.3,1.3,.4,1)}
+.t-motto:hover .flip-in,.t-motto:focus-visible .flip-in,.t-motto.flipped .flip-in{transform:rotateY(180deg)}
+.flip-f,.flip-b{position:absolute;inset:0;margin:0;border-radius:26px;border:1px solid var(--line);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;padding:26px 30px;display:grid;align-content:space-between}
+.flip-f{background:radial-gradient(120% 100% at 100% 0,rgba(255,138,61,.22),transparent 55%),radial-gradient(90% 90% at 0 100%,rgba(61,107,255,.25),transparent 60%),var(--panel)}
+.flip-f blockquote{margin:0;font-family:var(--serif);font-style:italic;font-size:clamp(34px,3.2vw,50px);line-height:1;letter-spacing:-.015em;transform:translateZ(40px)}
+.flip-f blockquote em{color:var(--spark);position:relative;display:inline-block}
+.flip-f blockquote svg{position:absolute;left:0;bottom:-.14em;width:100%;height:.28em;overflow:visible}
+.flip-f blockquote path{fill:none;stroke:var(--red);stroke-width:4;stroke-linecap:round}
+.flip-f .fh{display:flex;justify-content:space-between;align-items:center}
+.flip-f .fh small{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:inline-flex;gap:6px;align-items:center}
+.flip-f .fh small i{display:inline-block;width:14px;height:14px;border:1.5px solid currentColor;border-radius:50%;border-right-color:transparent;animation:spin 1.6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.flip-f::after{content:"”";position:absolute;right:14px;top:-34px;font-family:var(--serif);font-size:200px;line-height:1;color:rgba(255,255,255,.05);pointer-events:none}
+.flip-b{transform:rotateY(180deg);background:linear-gradient(150deg,#1a1f3a,#0b0f20);grid-template-columns:auto 1fr;align-items:center;gap:22px}
+.loop{position:relative;width:170px;height:170px}
+.loop svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.loop .ring{fill:none;stroke:rgba(140,190,255,.25);stroke-width:2;stroke-dasharray:4 7}
+.loop .run{fill:none;stroke:var(--spark);stroke-width:3;stroke-linecap:round;stroke-dasharray:60 400;animation:loopRun 4s linear infinite;filter:drop-shadow(0 0 6px var(--spark))}
+@keyframes loopRun{to{stroke-dashoffset:-460}}
+.loop span{position:absolute;translate:-50% -50%;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:5px 9px;white-space:nowrap}
+.loop b{position:absolute;left:50%;top:50%;translate:-50% -50%;font-family:var(--title);font-size:26px;color:var(--spark)}
+.flip-b p{margin:0;font-size:14.5px;line-height:1.65;color:rgba(239,231,218,.8)}
+.flip-b p small{display:block;margin-top:10px;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--spark)}
+/* principles: a 3D deck that shuffles */
+.t-deck{padding:24px 26px 20px;display:grid;gap:14px;background:radial-gradient(100% 80% at 100% 100%,rgba(111,224,255,.1),transparent 60%),var(--panel)}
+.t-deck .ab-h{margin:0}
+.deck{position:relative;height:196px;perspective:900px;outline:none}
+.dcard{position:absolute;inset:34px 0 0 0;border-radius:18px;border:1px solid rgba(255,255,255,.1);padding:18px 20px;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-content:start;background:linear-gradient(145deg,#1d2650,#10152e);box-shadow:0 20px 40px -18px rgba(0,0,0,.9);
+  transform:translate3d(calc(var(--d)*18px),calc(var(--d)*-14px),calc(var(--d)*-70px)) rotateZ(calc(var(--d)*2.5deg));opacity:calc(1 - var(--d)*.28);z-index:calc(10 - var(--d));transition:transform .9s cubic-bezier(.2,.8,.2,1),opacity .6s}
+.dcard.c1{background:linear-gradient(145deg,#3a2414,#160d08)}.dcard.c2{background:linear-gradient(145deg,#123a40,#071518)}
+.dcard b{grid-row:1/4;font-family:var(--title);font-weight:800;font-size:58px;line-height:.85;color:transparent;-webkit-text-stroke:1.4px rgba(255,255,255,.4)}
+.dcard[style*="--d:0"] b{-webkit-text-stroke-color:var(--spark)}
+.dcard h4{margin:4px 0 0;font-family:var(--title);font-weight:700;font-size:17px;letter-spacing:-.035em;line-height:1.2}
+.dcard p{margin:0;font-size:14px;line-height:1.6;color:rgba(239,231,218,.72)}
+.dcard.out{animation:dOut .9s cubic-bezier(.5,0,.2,1)}
+@keyframes dOut{0%{transform:translate3d(0,0,0)}45%{transform:translate3d(-10%,-75%,60px) rotateX(35deg) rotateZ(-8deg);opacity:1}100%{transform:translate3d(calc(var(--d)*18px),calc(var(--d)*-14px),calc(var(--d)*-70px)) rotateZ(calc(var(--d)*2.5deg));opacity:calc(1 - var(--d)*.28)}}
+.deck:hover .dcard{transform:translate3d(calc(var(--d)*34px),calc(var(--d)*-22px),calc(var(--d)*-60px)) rotateZ(calc(var(--d)*5deg))}
+.deck-ctl{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.deck-ctl button{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);cursor:pointer;font-size:16px;transition:background .3s,border-color .3s}
+.deck-ctl button:hover{background:var(--spark);color:var(--ink);border-color:var(--spark)}
+.deck-dots{display:flex;gap:6px}.deck-dots i{width:22px;height:4px;border-radius:2px;background:var(--line);transition:background .4s,width .4s}.deck-dots i.on{background:var(--spark);width:36px}
+/* chip board leans with the cursor */
+.bp-body{perspective:1800px}
+.bp-stage{transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.bp-board{transform-style:preserve-3d}
+.bp-col{transform-style:preserve-3d}
+.cpu{transform:translateZ(46px);transition:transform .6s}
+.bp-mod{transform:translateZ(18px)}
+.bp-mod.L.on{translate:8px 0}.bp-mod.R.on{translate:-8px 0}
+@media (max-width:1000px){.ab-bento{grid-template-columns:1fr}.t-prof{grid-row:auto}}
+@media (max-width:760px){.t-prof{padding:22px 20px}.t-motto,.flip-in{min-height:420px}.flip-b{grid-template-columns:1fr;justify-items:center;text-align:center}.loop{width:150px;height:150px}.deck{height:250px}.dcard b{font-size:44px}}
+@media (hover:none){.t-motto:hover .flip-in{transform:none}.t-motto.flipped .flip-in{transform:rotateY(180deg)}}
 </style>
 
 </head>
@@ -1196,12 +1273,25 @@ main{counter-reset:sec}
           </div>
         </div>
       </div>
-      <div class="ab-more">
-        <article class="ab-card ab-prof" id="abProf"><div class="ab-h"><span class="eyebrow" data-i18n="profK">Profil</span><small id="storyMeta"></small></div><p id="abStory"></p></article>
-        <aside class="ab-side">
-          <figure class="ab-motto" id="abMotto"></figure>
-          <div class="ab-card"><div class="ab-h"><span class="eyebrow" data-i18n="lawsTitle">Prinsip kerja</span></div><ol class="law-list" id="lawGrid"></ol></div>
-        </aside>
+      <div class="ab-bento" id="abBento">
+        <article class="tile t-prof" data-tilt id="abProf">
+          <i class="tile-orb"></i>
+          <div class="ab-h"><span class="eyebrow" data-i18n="profK">Profil</span><small id="storyMeta"></small></div>
+          <p class="ab-lead" id="abLead"></p>
+          <p class="ab-rest" id="abStory"></p>
+          <div class="kw" id="abKw"></div>
+        </article>
+        <div class="tile t-motto" data-tilt id="abMottoT" tabindex="0">
+          <div class="flip-in">
+            <figure class="flip-f" id="abMotto"></figure>
+            <div class="flip-b" id="abMottoBack"></div>
+          </div>
+        </div>
+        <div class="tile t-deck" id="abDeckT">
+          <div class="ab-h"><span class="eyebrow" data-i18n="lawsTitle">Prinsip kerja</span><small id="deckN"></small></div>
+          <div class="deck" id="lawGrid" tabindex="0" aria-live="polite"></div>
+          <div class="deck-ctl"><button type="button" data-deck="-1" aria-label="Sebelumnya">←</button><span class="deck-dots" id="deckDots"></span><button type="button" data-deck="1" aria-label="Berikutnya">→</button></div>
+        </div>
       </div>
     </div>
   </section>
@@ -2165,6 +2255,32 @@ function flagOf(title){const k=String(title||'').toLowerCase();const m=[['id',/i
   return m?'<span class="flag">'+FLAG[m[0]]+'</span>':'<span class="flag flag-txt">'+esc(String(title||'?').trim().slice(0,2).toUpperCase())+'</span>';}
 function bar5(e){const lv=Math.max(0,Math.min(5,parseInt(e.level,10)||0));const labs=e.type==='language'?t('langLv'):t('lv');let h='';for(let i=1;i<=5;i++)h+='<i class="'+(i<=lv?'on':'')+'"></i>';return '<span class="bar5" style="--c:'+(TYPEC[e.type]||'var(--red)')+'" title="'+(labs[lv-1]||'')+'">'+h+'</span><small class="bar5-l">'+(labs[lv-1]||'')+'</small>';}
 
+/* ================= TENTANG bento: deck, keyword chips, flip, 3D tilt ================= */
+function deckPaint(){const n=AB.laws||0;document.querySelectorAll('#lawGrid .dcard').forEach(c=>{const i=+c.dataset.li;c.style.setProperty('--d',(i-(AB.top||0)+n)%n);c.setAttribute('style','--d:'+((i-(AB.top||0)+n)%n));});
+  document.querySelectorAll('#deckDots i').forEach((d,i)=>d.classList.toggle('on',i===(AB.top||0)));if($('deckN'))$('deckN').textContent=String((AB.top||0)+1).padStart(2,'0')+' / '+String(n).padStart(2,'0');}
+function deckStep(dir){const n=AB.laws||0;if(n<2)return;const old=AB.top||0;AB.top=(old+dir+n)%n;deckPaint();
+  if(dir>0&&!reduce){const c=document.querySelector('#lawGrid .dcard[data-li="'+old+'"]');if(c){c.classList.remove('out');void c.offsetWidth;c.classList.add('out');setTimeout(()=>c.classList.remove('out'),950);}}}
+function setupBento(){
+  const deck=$('lawGrid');if(!deck)return;
+  document.addEventListener('click',e=>{const d=e.target.closest('[data-deck]');if(d){AB.deckUser=true;deckStep(+d.dataset.deck);return;}
+    if(e.target.closest('#lawGrid')){AB.deckUser=true;deckStep(1);return;}
+    const k=e.target.closest('[data-kwb]');if(k){const on=!k.classList.contains('on');document.querySelectorAll('[data-kwb]').forEach(b=>b.classList.toggle('on',on&&b===k));document.querySelectorAll('#abProf strong').forEach(s=>s.classList.toggle('hl',on&&s.dataset.kw===k.dataset.kwb));return;}
+    const mt=e.target.closest('#abMottoT');if(mt)mt.classList.toggle('flipped');});
+  deck.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){deckStep(1);e.preventDefault();}if(e.key==='ArrowLeft'){deckStep(-1);e.preventDefault();}});
+  document.addEventListener('mouseover',e=>{const k=e.target.closest&&e.target.closest('[data-kwb]');if(!k)return;document.querySelectorAll('#abProf strong').forEach(s=>s.classList.toggle('hl',s.dataset.kw===k.dataset.kwb));});
+  document.addEventListener('mouseout',e=>{const k=e.target.closest&&e.target.closest('[data-kwb]');if(!k||k.classList.contains('on'))return;document.querySelectorAll('#abProf strong').forEach(s=>s.classList.remove('hl'));});
+  let vis=false;if('IntersectionObserver' in window)new IntersectionObserver(es=>{vis=es[0].isIntersecting;},{threshold:.3}).observe(deck);
+  setInterval(()=>{if(vis&&!AB.deckUser&&!document.hidden&&!deck.matches(':hover'))deckStep(1);},4200);
+  /* 3D tilt + glare for bento tiles, and the chip board leaning toward the cursor */
+  document.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||reduce)return;
+    const tl=e.target.closest&&e.target.closest('[data-tilt]');
+    if(AB.tl&&AB.tl!==tl){AB.tl.classList.remove('tilt');AB.tl.style.transform='';AB.tl=null;}
+    if(tl){AB.tl=tl;tl.classList.add('tilt');const r=tl.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height,k=tl.classList.contains('t-prof')?5:8;
+      tl.style.transform='perspective(1200px) rotateX('+((.5-y)*k).toFixed(2)+'deg) rotateY('+((x-.5)*k*1.3).toFixed(2)+'deg) translateZ(10px)';tl.style.setProperty('--gx',(x*100).toFixed(1)+'%');tl.style.setProperty('--gy',(y*100).toFixed(1)+'%');}
+    const st=$('bpStage');if(st&&!st.classList.contains('stack')){const inS=e.target.closest&&e.target.closest('#bpStage');
+      if(inS){const r=st.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;st.style.transform='rotateX('+(-y*9).toFixed(2)+'deg) rotateY('+(x*11).toFixed(2)+'deg)';}else if(st.style.transform)st.style.transform='';}},{passive:true});
+}
+
 /* ================= cursor follower ================= */
 (function(){const c=$('cur');if(!c||reduce||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
   let x=-100,y=-100,px=-100,py=-100,raf=0;const lab=c.querySelector('b');
@@ -2389,14 +2505,22 @@ function renderAbout(){
   const rows=[[t('spModel'),esc(p.fullName||p.name||'Zafran')],[t('spSerial'),esc(p.nim||'—')],[t('spUnit'),esc([p.prodi,p.campus].filter(Boolean).join(' · ')||'—')],[t('spBase'),esc(p.base||t('ab_base'))],[t('spMode'),esc(role)],[t('spFw'),'S'+sem+' / 8 '+fw],[t('spLang'),langs||'—'],[t('spUp'),'<span id="upT">—</span>'],[t('spTarget'),esc(fmtDate(gradTarget()+'-01').slice(3))]];
   $('specList').innerHTML=rows.map(r=>'<div class="anim-s"><dt>'+r[0]+'</dt><span class="ld"></span><dd>'+r[1]+'</dd></div>').join('');
   abUptime();
-  /* motto: the part after the first comma gets the marker underline */
+  /* motto front + build-loop back */
   const m=abTxt('aboutMotto').trim(),ci=m.search(/[,;—]/);const m1=ci>0?m.slice(0,ci+1):m,m2=ci>0?m.slice(ci+1).trim():'';
-  $('abMotto').innerHTML='<span class="eyebrow">Motto</span><blockquote>'+esc(m1)+(m2?' <em>'+esc(m2)+'<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 14C60 6 140 4 296 10"/></svg></em>':'')+'</blockquote><figcaption>'+esc(abTxt('aboutMottoSub'))+'</figcaption>';
-  /* profile paragraph: *keywords* get a highlighter stroke when the card scrolls in */
-  const st=abTxt('aboutStory'),n=st.replace(/\*/g,'').trim().split(/\s+/).length;
-  $('abStory').innerHTML=st.split(/(\*[^*]+\*)/).map(seg=>/^\*.*\*$/.test(seg)?'<strong>'+esc(seg.slice(1,-1))+'</strong>':esc(seg)).join('');
+  $('abMotto').innerHTML='<div class="fh"><span class="eyebrow">Motto</span><small><i></i>'+esc(t('flipHint'))+'</small></div><blockquote>'+esc(m1)+(m2?' <em>'+esc(m2)+'<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 14C60 6 140 4 296 10"/></svg></em>':'')+'</blockquote>';
+  const LW=t('loopW'),pos=[[50,0],[100,50],[50,100],[0,50]];
+  $('abMottoBack').innerHTML='<div class="loop"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="ring" cx="50" cy="50" r="46"/><circle class="run" cx="50" cy="50" r="46" pathLength="460"/></svg>'+LW.map((w,i)=>'<span style="left:'+pos[i][0]+'%;top:'+pos[i][1]+'%">'+esc(w)+'</span>').join('')+'<b>∞</b></div><p>'+esc(abTxt('aboutMottoSub'))+'<small>— '+esc(S.profile.name||'Zafran')+'</small></p>';
+  /* profile: first sentence as the lead, *keywords* highlighted and listed as chips */
+  const st=abTxt('aboutStory'),n=st.replace(/\*/g,'').trim().split(/\s+/).length;const cut=st.search(/\.\s/);const lead=cut>0?st.slice(0,cut+1):st,rest=cut>0?st.slice(cut+1).trim():'';
+  const fmt=x=>x.split(/(\*[^*]+\*)/).map(seg=>/^\*.*\*$/.test(seg)?'<strong data-kw="'+esc(seg.slice(1,-1).toLowerCase())+'">'+esc(seg.slice(1,-1))+'</strong>':esc(seg)).join('');
+  $('abLead').innerHTML=fmt(lead);$('abStory').innerHTML=fmt(rest);
+  const kws=[...new Set((st.match(/\*([^*]+)\*/g)||[]).map(x=>x.slice(1,-1)))];
+  $('abKw').innerHTML=kws.map((k,i)=>'<button type="button" data-kwb="'+esc(k.toLowerCase())+'" style="--i:'+i+'">'+esc(k)+'</button>').join('');
   $('storyMeta').textContent=n+' '+t('words')+' · ~'+Math.max(1,Math.round(n/200))+' '+t('minRead');
-  $('lawGrid').innerHTML=abLines(abTxt('aboutLaws')).slice(0,4).map((l,i)=>{const a=l.split('|').map(x=>x.trim());return '<li><span>'+String(i+1).padStart(2,'0')+'</span><div>'+(a[1]?'<b>'+esc(a[0])+'</b><p>'+esc(a.slice(1).join(' | '))+'</p>':'<p>'+esc(a[0])+'</p>')+'</div></li>';}).join('');
+  /* principles deck */
+  const laws=abLines(abTxt('aboutLaws')).slice(0,5);AB.laws=laws.length;AB.top=Math.min(AB.top||0,Math.max(0,laws.length-1));
+  $('lawGrid').innerHTML=laws.map((l,i)=>{const a=l.split('|').map(x=>x.trim());return '<article class="dcard c'+(i%3)+'" data-li="'+i+'"><b>0'+(i+1)+'</b>'+(a[1]?'<h4>'+esc(a[0])+'</h4><p>'+esc(a.slice(1).join(' | '))+'</p>':'<p>'+esc(a[0])+'</p>')+'</article>';}).join('');
+  $('deckDots').innerHTML=laws.map(()=>'<i></i>').join('');deckPaint();
   abLayout();abSet(AB.act>=0&&AB.act<parts.length?AB.act:0,true);abScrollFx();
 }
 function abUptime(){const el=$('upT');if(!el)return;const s0=new Date(angk()+'-08-01T00:00:00').getTime(),d=Math.floor((Date.now()-s0)/1000);
@@ -2428,16 +2552,13 @@ function abSet(i,quiet){
   let c=0;el.textContent='';AB.typer=setInterval(()=>{c+=2;el.textContent=q.d.slice(0,c);if(c>=q.d.length)clearInterval(AB.typer);},16);
 }
 function abScrollFx(){
-  const prof=$('abProf');
-  if(!ST||!G){prof.classList.add('in');return;}
-  const path=document.querySelector('#abMotto path');
-  if(path){const L=path.getTotalLength?path.getTotalLength():320;G.set(path,{strokeDasharray:L,strokeDashoffset:AB.mottoDone?0:L});
-    if(!AB.mottoArmed){AB.mottoArmed=true;ST.create({trigger:'#abMotto',start:'top 80%',once:true,onEnter:()=>{AB.mottoDone=true;G.to('#abMotto path',{strokeDashoffset:0,duration:1.1,ease:'power3.inOut',delay:.3});}});}}
-  if(AB.fxDone){if(AB.profIn)prof.classList.add('in');return;}
-  AB.fxDone=true;
-  ST.create({trigger:prof,start:'top 75%',once:true,onEnter:()=>{AB.profIn=true;$('abProf').classList.add('in');}});
-  G.from(['#abProf','#abMotto','.ab-side>.ab-card'],{y:50,opacity:0,duration:1,stagger:.12,ease:'expo.out',clearProps:'transform,opacity',scrollTrigger:{trigger:'.ab-more',start:'top 85%',once:true}});
-  G.from('#lawGrid li',{x:-20,opacity:0,duration:.8,stagger:.08,ease:'power3.out',delay:.35,clearProps:'transform,opacity',scrollTrigger:{trigger:'.ab-more',start:'top 85%',once:true}});
+  const prof=$('abProf');if(!ST||!G||reduce){prof.classList.add('in');return;}
+  const path=document.querySelector('#abMotto path');if(path){const L=path.getTotalLength?path.getTotalLength():320;G.set(path,{strokeDasharray:L,strokeDashoffset:AB.mottoDone?0:L});}
+  if(AB.fxDone){if(AB.profIn)prof.classList.add('in');return;}AB.fxDone=true;
+  ST.create({trigger:'#abBento',start:'top 78%',once:true,onEnter:()=>{AB.profIn=true;AB.mottoDone=true;$('abProf').classList.add('in');G.to('#abMotto path',{strokeDashoffset:0,duration:1.2,ease:'power3.inOut',delay:.6});}});
+  G.fromTo('#abBento>.tile',{rotateX:-38,y:90,z:-220,opacity:0,transformOrigin:'50% 100%'},{rotateX:0,y:0,z:0,opacity:1,duration:1.3,stagger:.12,ease:'expo.out',clearProps:'transform,opacity',scrollTrigger:{trigger:'#abBento',start:'top 88%',once:true}});
+  G.from('#abKw button',{scale:0,opacity:0,duration:.7,stagger:.06,ease:'back.out(2.5)',delay:.4,clearProps:'transform,opacity,scale',scrollTrigger:{trigger:'#abBento',start:'top 80%',once:true}});
+  G.from('#lawGrid .dcard',{y:-80,rotateX:50,opacity:0,duration:1,stagger:.12,ease:'expo.out',delay:.3,clearProps:'transform,opacity',scrollTrigger:{trigger:'#abBento',start:'top 80%',once:true}});
 }
 function setupAbout(){
   const stg=$('bpStage');
@@ -2479,8 +2600,8 @@ Object.assign(T.en,{profK:'Profile',daysW:'days',nJourney:'Journey',jrEyebrow:'J
   ab_aboutMottoSub:'Starting with a simple prototype is worth more than waiting for a perfect plan.',
   ab_aboutStory:'I am Zafran Ali Ihsan Nasution, a *Computer Science* student at Universitas Sumatera Utara (class of 2026) whose main interests are *robotics* and *artificial intelligence*. I am drawn to the point where software meets the physical world: how a system can read its surroundings through sensors, process that data and make decisions on its own. Right now I am building my foundation through *C++* and *Python*, microcontroller experiments with *Arduino*, and the fundamentals of *machine learning*. I believe the best way to understand technology is to build it, test it and improve it again and again. Going forward, I want to develop intelligent robotic systems that create real value, and this portfolio is an open record of every step along the way.',
   ab_aboutLaws:'Learn by building | I test new concepts through small projects so they do not stay theoretical.\nIterate without fear of failure | Every error is data. Build, test, evaluate, then improve.\nDocument and share | I keep clear notes on the process so it can be revisited and help others.'});
-Object.assign(T.id,{curOpen:'buka',zgK:'Portofolio · karya pilihan',zgHead:'Karya yang <em>saya rakit</em>',zgSub:'Dari prototipe kecil sampai project besar. Setiap karya dicatat di sini, lengkap dengan ceritanya.',zgHint:'Scroll untuk masuk',foldSoon:'Segera',foldNone:'Belum ada project',foldClose:'Tutup folder',nTools:'Tools',gsHint:'Arahkan kursor untuk memutar · klik menara untuk membuka semesternya',ringK:'perjalanan',cdK:'Hitung mundur menuju wisuda',cdL:['hari','jam','menit','detik'],cdUntil:'Target wisuda',youHere:'KAMU DI SINI',gradWord:'WISUDA',semEmpty:'Belum ada jejak',wsHead:'Perlengkapan untuk <em>merakit ide</em>',wsDesc:'Semua yang saya pakai untuk mengubah ide menjadi sesuatu yang benar-benar berjalan: tools dan bahasa pemrograman di layar kiri, keahlian dan bahasa komunikasi di layar kanan. Daftarnya terus bertambah setiap semester.',tProg:'Bahasa pemrograman',tLanguage:'Bahasa',noProg:'Tambah jejak berjenis Bahasa Pemrograman, misalnya C++ atau Python.',langLv:['Sedikit','Dasar','Menengah','Mahir','Bahasa ibu'],toolTitle:'Tools, kode <em>&amp; bahasa</em>',nLib:'Library',libEyebrow:'Arsip lengkap',libLead:'Semua project, perjalanan kuliah, dan pencapaian dalam satu tempat. Pilih kategori, cari, lalu buka salah satu untuk membaca detailnya.',lAll:'Semua',lProj:'Project',lJourney:'Perjalanan',lAch:'Achievement',libSearch:'Cari judul, cerita, atau tag…',seeAllN:'Lihat semua',loadMore:'Tampilkan lebih banyak',noResult:'Tidak ada yang cocok dengan pencarianmu.',latest:'Jejak terbaru',showing:'Menampilkan',of:'dari',seeAllProj:'Lihat semua project',allTier:'Semua tingkat'});
-Object.assign(T.en,{curOpen:'open',zgK:'Portfolio · selected work',zgHead:'Things <em>I have built</em>',zgSub:'From small prototypes to bigger builds. Every piece of work is logged here with its story.',zgHint:'Scroll to dive in',foldSoon:'Coming up',foldNone:'No projects yet',foldClose:'Close folder',nTools:'Tools',gsHint:'Move your cursor to rotate · click a tower to open that semester',ringK:'of the journey',cdK:'Countdown to graduation',cdL:['days','hrs','min','sec'],cdUntil:'Expected graduation',youHere:'YOU ARE HERE',gradWord:'GRADUATION',semEmpty:'No entries yet',wsHead:'The kit for <em>building ideas</em>',wsDesc:'Everything I use to turn ideas into things that actually run: tools and programming languages on the left screens, skills and spoken languages on the right. The list grows every semester.',tProg:'Programming languages',tLanguage:'Languages',noProg:'Add a Programming entry, for example C++ or Python.',langLv:['A little','Basic','Intermediate','Advanced','Native'],toolTitle:'Tools, code <em>&amp; languages</em>',nLib:'Library',libEyebrow:'Complete archive',libLead:'Every project, college milestone, and achievement in one place. Pick a category, search, then open one to read the details.',lAll:'All',lProj:'Projects',lJourney:'Journey',lAch:'Achievements',libSearch:'Search titles, stories, or tags…',seeAllN:'See all',loadMore:'Show more',noResult:'Nothing matches your search.',latest:'Latest entries',showing:'Showing',of:'of',seeAllProj:'See all projects',allTier:'All tiers'});
+Object.assign(T.id,{flipHint:'arahkan untuk membalik',loopW:['Rakit','Uji','Evaluasi','Perbaiki'],curOpen:'buka',zgK:'Portofolio · karya pilihan',zgHead:'Karya yang <em>saya rakit</em>',zgSub:'Dari prototipe kecil sampai project besar. Setiap karya dicatat di sini, lengkap dengan ceritanya.',zgHint:'Scroll untuk masuk',foldSoon:'Segera',foldNone:'Belum ada project',foldClose:'Tutup folder',nTools:'Tools',gsHint:'Arahkan kursor untuk memutar · klik menara untuk membuka semesternya',ringK:'perjalanan',cdK:'Hitung mundur menuju wisuda',cdL:['hari','jam','menit','detik'],cdUntil:'Target wisuda',youHere:'KAMU DI SINI',gradWord:'WISUDA',semEmpty:'Belum ada jejak',wsHead:'Perlengkapan untuk <em>merakit ide</em>',wsDesc:'Semua yang saya pakai untuk mengubah ide menjadi sesuatu yang benar-benar berjalan: tools dan bahasa pemrograman di layar kiri, keahlian dan bahasa komunikasi di layar kanan. Daftarnya terus bertambah setiap semester.',tProg:'Bahasa pemrograman',tLanguage:'Bahasa',noProg:'Tambah jejak berjenis Bahasa Pemrograman, misalnya C++ atau Python.',langLv:['Sedikit','Dasar','Menengah','Mahir','Bahasa ibu'],toolTitle:'Tools, kode <em>&amp; bahasa</em>',nLib:'Library',libEyebrow:'Arsip lengkap',libLead:'Semua project, perjalanan kuliah, dan pencapaian dalam satu tempat. Pilih kategori, cari, lalu buka salah satu untuk membaca detailnya.',lAll:'Semua',lProj:'Project',lJourney:'Perjalanan',lAch:'Achievement',libSearch:'Cari judul, cerita, atau tag…',seeAllN:'Lihat semua',loadMore:'Tampilkan lebih banyak',noResult:'Tidak ada yang cocok dengan pencarianmu.',latest:'Jejak terbaru',showing:'Menampilkan',of:'dari',seeAllProj:'Lihat semua project',allTier:'Semua tingkat'});
+Object.assign(T.en,{flipHint:'hover to flip',loopW:['Build','Test','Evaluate','Improve'],curOpen:'open',zgK:'Portfolio · selected work',zgHead:'Things <em>I have built</em>',zgSub:'From small prototypes to bigger builds. Every piece of work is logged here with its story.',zgHint:'Scroll to dive in',foldSoon:'Coming up',foldNone:'No projects yet',foldClose:'Close folder',nTools:'Tools',gsHint:'Move your cursor to rotate · click a tower to open that semester',ringK:'of the journey',cdK:'Countdown to graduation',cdL:['days','hrs','min','sec'],cdUntil:'Expected graduation',youHere:'YOU ARE HERE',gradWord:'GRADUATION',semEmpty:'No entries yet',wsHead:'The kit for <em>building ideas</em>',wsDesc:'Everything I use to turn ideas into things that actually run: tools and programming languages on the left screens, skills and spoken languages on the right. The list grows every semester.',tProg:'Programming languages',tLanguage:'Languages',noProg:'Add a Programming entry, for example C++ or Python.',langLv:['A little','Basic','Intermediate','Advanced','Native'],toolTitle:'Tools, code <em>&amp; languages</em>',nLib:'Library',libEyebrow:'Complete archive',libLead:'Every project, college milestone, and achievement in one place. Pick a category, search, then open one to read the details.',lAll:'All',lProj:'Projects',lJourney:'Journey',lAch:'Achievements',libSearch:'Search titles, stories, or tags…',seeAllN:'See all',loadMore:'Show more',noResult:'Nothing matches your search.',latest:'Latest entries',showing:'Showing',of:'of',seeAllProj:'See all projects',allTier:'All tiers'});
 const LIB={tab:'all',q:'',limit:12,tier:'all'};
 const LIBTABS=['all','project','jejak','achievement'];
 function libFilter(list){const q=LIB.q.trim().toLowerCase();if(!q)return list;return list.filter(e=>((e.title||'')+' '+(e.desc||'')+' '+(e.tags||[]).join(' ')+' '+tl(e.type)).toLowerCase().includes(q));}
@@ -2547,7 +2668,7 @@ function animateNew(){
   requestAnimationFrame(()=>ST.refresh());
 }
 function setupScroll(){
-  setupChapters();setupAbout();setupWs();setupGrad();setupZg();
+  setupChapters();setupAbout();setupBento();setupWs();setupGrad();setupZg();
   if(!ST)return;
   document.querySelectorAll('[data-split]').forEach(el=>{ST.create({trigger:el,start:'top 86%',once:true,onEnter:()=>{G.from(el.querySelectorAll('.c'),{yPercent:115,rotate:5,duration:1.1,stagger:.025,ease:'expo.out'});}});});
   document.querySelectorAll('[data-fade]').forEach(el=>G.from(el,{y:40,opacity:0,filter:'blur(8px)',duration:1.1,ease:'expo.out',clearProps:'filter',scrollTrigger:{trigger:el,start:'top 88%',once:true}}));
