@@ -519,7 +519,7 @@ section.sec{position:relative;padding-block:120px 40px}
 .ws-stats div:hover,.ws-stats div.hl{border-color:var(--spark);background:rgba(255,138,61,.08)}
 .ws-stats b{font-family:var(--display);font-weight:400;font-size:26px;line-height:1;color:var(--text)}
 .ws-stats small{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.ws-code{margin:0;font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;font-size:12.5px;line-height:1.75;color:#9aa6cf;white-space:pre;overflow:hidden;border-left:1px dashed #1d2650;padding-left:18px;counter-reset:ln;min-width:0}
+.ws-code{margin:0;height:31em;align-self:start;font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;font-size:12.5px;line-height:1.75;color:#9aa6cf;white-space:pre;overflow:hidden;border-left:1px dashed #1d2650;padding-left:18px;counter-reset:ln;min-width:0}
 .ws-code .ln{display:block;counter-increment:ln}
 .ws-code .ln::before{content:counter(ln);display:inline-block;width:20px;margin-right:12px;color:#323c6b;text-align:right}
 .ws-code .kw{color:#B49BFF}.ws-code .ty{color:#6FE0FF}.ws-code .nu{color:var(--spark)}.ws-code .cm{color:#4c5785;font-style:italic}.ws-code .fn{color:#7FD3FF}
@@ -1134,9 +1134,9 @@ main{counter-reset:sec}
 .ab-rest strong{color:var(--text);font-weight:600;background:linear-gradient(transparent 62%,rgba(61,107,255,.4) 0) no-repeat 0 0/0% 100%;transition:background-size .9s cubic-bezier(.2,.8,.2,1),color .3s}
 .t-prof.in .ab-rest strong{background-size:100% 100%}
 .ab-rest strong.hl,.ab-lead strong.hl{color:var(--cyan);background-image:linear-gradient(transparent 62%,rgba(111,224,255,.45) 0)}
-.kw{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;transform:translateZ(40px)}
-.kw button{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);border-radius:999px;padding:7px 13px;cursor:pointer;animation:kwBob 4s ease-in-out infinite;animation-delay:calc(var(--i)*-.6s);transition:background .3s,color .3s,border-color .3s}
-.kw button:hover,.kw button.on{background:var(--spark);color:var(--ink);border-color:var(--spark)}
+.ab-kw{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;transform:translateZ(40px)}
+.ab-kw button{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);border-radius:999px;padding:7px 13px;cursor:pointer;animation:kwBob 4s ease-in-out infinite;animation-delay:calc(var(--i)*-.6s);transition:background .3s,color .3s,border-color .3s}
+.ab-kw button:hover,.ab-kw button.on{background:var(--spark);color:var(--ink);border-color:var(--spark)}
 @keyframes kwBob{50%{transform:translateY(-4px)}}
 /* motto: flips over to show the build loop */
 .t-motto{min-height:250px;background:none;border:0;overflow:visible;cursor:pointer;outline:none}
@@ -1271,7 +1271,7 @@ main{counter-reset:sec}
           <div class="ab-h"><span class="eyebrow" data-i18n="profK">Profil</span><small id="storyMeta"></small></div>
           <p class="ab-lead" id="abLead"></p>
           <p class="ab-rest" id="abStory"></p>
-          <div class="kw" id="abKw"></div>
+          <div class="ab-kw" id="abKw"></div>
         </article>
         <div class="tile t-motto" data-tilt id="abMottoT" tabindex="0">
           <div class="flip-in">
