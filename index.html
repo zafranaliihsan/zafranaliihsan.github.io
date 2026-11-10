@@ -2179,7 +2179,7 @@ function route(){
     .to(c2,{yPercent:-140,duration:.85,ease:E},1.2).to(c1,{yPercent:-140,duration:.85,ease:E},1.25);
 }
 let cameFromSite=false;window.addEventListener('hashchange',()=>{cameFromSite=true;route();});
-function goHome(section){pendingScroll=section||null;if(curView==='home'){if(section){const el=$(section);if(el){if(lenis)lenis.scrollTo(el,{offset:-70});else el.scrollIntoView({behavior:'smooth'});}}return;}location.hash='beranda';}
+function goHome(section){pendingScroll=section||null;if(curView==='home'){pendingScroll=null;if(section&&$(section))navTo(section);return;}location.hash='beranda';}
 function backBtn(sec){return '<button class="backbtn" type="button" data-back="'+(sec||'')+'">← '+t('back')+'</button>';}
 function renderPage(){
   const p=$('page');if(!p||curView==='home')return;
@@ -2679,7 +2679,16 @@ function setupScroll(){
 let lenis=null;
 if(!reduce&&window.Lenis){try{lenis=new window.Lenis({duration:1.15,easing:x=>Math.min(1,1.001-Math.pow(2,-10*x)),smoothWheel:true});
   if(G){lenis.on('scroll',()=>{if(ST)ST.update();});G.ticker.add(time=>lenis.raf(time*1000));G.ticker.lagSmoothing(0);}else{(function r(time){lenis.raf(time);requestAnimationFrame(r);})(0);}}catch(e){lenis=null;}}
-document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;const id=a.getAttribute('href').slice(1);const el=$(id);if(!el)return;e.preventDefault();if(curView!=='home'){goHome(id==='beranda'?null:id);return;}if(lenis)lenis.scrollTo(id==='beranda'?0:el,{offset:-70,duration:1.4});else if(id==='beranda')window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});else el.scrollIntoView({behavior:reduce?'auto':'smooth'});});
+/* in-page jumps: short distances glide; long ones (e.g. back through the pinned PORTOFOLIO zoom) fade out, jump, fade in, so the heavy scroll scenes are not played on the way */
+let navJ=null;
+function navTo(id){const el=id==='beranda'?null:$(id);const y=el?Math.max(0,el.getBoundingClientRect().top+scrollY-70):0,dy=Math.abs(y-scrollY),home=$('beranda');
+  if(!G||reduce||dy<innerHeight*1.6){if(lenis)lenis.scrollTo(el||0,{offset:el?-70:0,duration:1.1});else window.scrollTo({top:y,behavior:reduce?'auto':'smooth'});return;}
+  if(navJ)navJ.kill();if(lenis)lenis.stop();
+  navJ=G.timeline({onComplete:()=>{navJ=null;}})
+    .to(home,{opacity:0,y:y<scrollY?30:-30,duration:.28,ease:'power2.in'})
+    .add(()=>{const de=document.documentElement,sb=de.style.scrollBehavior;de.style.scrollBehavior='auto';if(lenis){lenis.start();lenis.scrollTo(y,{immediate:true,force:true});}window.scrollTo({top:y,behavior:'instant'});de.style.scrollBehavior=sb;if(ST)ST.update();})
+    .fromTo(home,{opacity:0,y:y<scrollY?-30:30},{opacity:1,y:0,duration:.6,ease:'power3.out',clearProps:'opacity,transform'});}
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;const id=a.getAttribute('href').slice(1);const el=$(id);if(!el)return;e.preventDefault();if(curView!=='home'){goHome(id==='beranda'?null:id);return;}navTo(id);});
 function movePill(){const on=document.querySelector('.links a.on'),pb=$('pillbg');if(!on||!pb||!on.offsetWidth)return;pb.style.width=on.offsetWidth+'px';pb.style.transform='translateX('+on.offsetLeft+'px)';}
 if('IntersectionObserver' in window){const navs=document.querySelectorAll('.links a');const map={hero:'beranda',toolbox:'achievement',wisuda:'achievement'};const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const id=map[e.target.id]||e.target.id;navs.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));movePill();}}),{rootMargin:'-45% 0px -50% 0px'});
   ['hero','tentang','project','perjalanan','achievement','toolbox','wisuda','contact'].forEach(id=>io.observe($(id)));}
