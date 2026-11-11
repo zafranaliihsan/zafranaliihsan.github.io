@@ -1226,6 +1226,34 @@ main{counter-reset:sec}
 .win-f{display:flex;flex-direction:column;animation:float var(--fd,7s) ease-in-out var(--fl,0s) infinite alternate}
 @keyframes float{0%{transform:translate3d(0,-10px,0) rotate(-.6deg)}50%{transform:translate3d(4px,8px,0) rotate(.4deg)}100%{transform:translate3d(-3px,-4px,0) rotate(-.2deg)}}
 .win.front .win-f{animation-duration:9s}
+
+/* desktop-OS controls */
+.win{transform:none!important;translate:none!important;cursor:default;transition:opacity .35s,scale .35s,filter .4s}
+.win.anim{transition:left .55s cubic-bezier(.2,.8,.2,1),top .55s cubic-bezier(.2,.8,.2,1),width .55s cubic-bezier(.2,.8,.2,1),opacity .35s,scale .35s}
+.win:not(.front){filter:brightness(.82) saturate(.9)}
+.win:not(.front):hover{filter:brightness(.92)}
+.win.hid{opacity:0;scale:.25;pointer-events:none}
+.win.drag{transition:none!important}
+.win.drag .win-f,.win.front .win-f:hover{animation-play-state:paused}
+.win-bar{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.win.drag .win-bar{cursor:grabbing}
+.win-bar button{flex:none;width:12px;height:12px;border-radius:50%;border:0;padding:0;background:#4a4a4e;cursor:pointer;position:relative}
+.win.front .wb-x{background:#ff5f57}.win.front .wb-m{background:#febc2e}.win.front .wb-z{background:#28c840}
+.win-bar button::after{position:absolute;inset:0;display:grid;place-items:center;font:700 9px/1 system-ui;color:rgba(0,0,0,.6);opacity:0}
+.wb-x::after{content:"×"}.wb-m::after{content:"−"}.wb-z::after{content:"+"}
+.win-bar:hover button::after{opacity:1}
+.win-bar{height:28px}
+.win-rs{position:absolute;right:0;bottom:0;width:22px;height:22px;cursor:nwse-resize;touch-action:none;z-index:2;background:linear-gradient(135deg,transparent 55%,rgba(255,255,255,.35) 56% 62%,transparent 63% 72%,rgba(255,255,255,.35) 73% 79%,transparent 80%)}
+.win-f{position:relative}
+.alb-tray{position:relative;z-index:80;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}
+.alb-tray[hidden]{display:none}
+.alb-tray button{font:500 12px var(--body);color:var(--text);background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.alb-tray button::before{content:"↥ ";color:var(--spark)}
+.alb-tray button:hover{background:rgba(255,255,255,.12)}
+.ab3-txt{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}
+.album-ctl small{max-width:340px;margin-left:auto;line-height:1.5}
+@media (max-width:760px){.ab3-txt{grid-template-columns:1fr}.album-ctl small{margin-left:0;max-width:none}}
+.album-ctl .alb-reset{width:auto;height:44px;padding:0 18px;border-radius:999px;font:500 13px var(--body)}
 @media (prefers-reduced-motion:reduce){.win-f{animation:none}}
 .win{overflow:visible!important;background:none!important;border-radius:0!important;box-shadow:none!important}
 .win-f{border-radius:10px;overflow:hidden;background:#1e1e20;box-shadow:0 0 0 1px rgba(255,255,255,.12),0 40px 80px -20px rgba(0,0,0,.85),0 0 60px -10px rgba(77,108,255,.18)}
@@ -1290,6 +1318,7 @@ main{counter-reset:sec}
       <div class="dsk" id="album" tabindex="0" aria-roledescription="album foto">
         <div class="dsk-area" id="dskArea"></div>
       </div>
+      <div class="alb-tray" id="albTray" hidden></div>
       <div class="ab3-txt">
         <span class="eyebrow" data-i18n="ab2K">tentang saya</span>
         <p class="ab2-p" id="ab2P"></p>
@@ -1297,6 +1326,7 @@ main{counter-reset:sec}
           <button type="button" data-alb="-1" aria-label="Foto sebelumnya">←</button>
           <span id="albN">1 / 1</span>
           <button type="button" data-alb="1" aria-label="Foto berikutnya">→</button>
+          <button type="button" class="alb-reset" data-wreset data-i18n="albReset">Rapikan</button>
           <small id="albHint"></small>
         </div>
       </div>
@@ -2292,43 +2322,63 @@ function setupBento(){
       if(inS){const r=st.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;st.style.transform='rotateX('+(-y*9).toFixed(2)+'deg) rotateY('+(x*11).toFixed(2)+'deg)';}else if(st.style.transform)st.style.transform='';}},{passive:true});
 }
 
-/* ================= TENTANG: macOS-like desktop, many windows ================= */
-const ALB={i:0,items:[],user:false,vis:false};
+/* ================= TENTANG: floating windows you control like a desktop OS ================= */
+const ALB={items:[],pos:[],z:20,top:0};
 function albItems(){const p=S.profile,own=Array.isArray(p.album)?p.album.filter(a=>a&&a.img):[];if(own.length)return own;
   const d=[];if(p.heroPhoto)d.push({img:p.heroPhoto,cap:t('albD1')});if(p.photo)d.push({img:p.photo,cap:t('albD2')});if(!d.length)d.push({img:null,cap:t('albD1')});return d;}
+function albTitle(a,i){return a.k==='term'?a.cap:(a.cap||('IMG_'+(1000+i)+'.jpg'));}
 function renderAlbum(){const p=S.profile,ph=albItems();
   const motto=((LANG==='en'?p.aboutMottoEn:p.aboutMotto)||t('ab_aboutMotto')).replace(/^[“"]|[”"]$/g,'');
   ALB.items=ph.map(a=>({k:'ph',img:a.img,cap:a.cap||''})).concat([{k:'term',cap:'zsh — motto.txt',motto}]);
-  if(ALB.i>=ALB.items.length)ALB.i=0;
   $('dskArea').innerHTML=ALB.items.map((a,i)=>{const src=a.k==='ph'?blob(a.img):'';
     const body=a.k==='term'?'<div class="win-body"><p><span class="c">zafran@usu</span> ~ % cat motto.txt</p><p class="o">'+esc(a.motto)+'</p><p><span class="c">zafran@usu</span> ~ % <span class="cur"></span></p></div>'
       :'<div class="win-body">'+(src?'<i class="bg" style="background-image:url(\''+src+'\')"></i><img src="'+src+'" alt="'+esc(a.cap)+'" draggable="false" loading="lazy">':'<i class="no"></i>')+'</div>';
-    return '<div class="win'+(a.k==='term'?' term':'')+'" data-w="'+i+'" style="--fd:'+(6+i%3*1.7)+'s;--fl:-'+(i*1.3)+'s"><div class="win-f"><div class="win-bar"><i></i><i></i><i></i><b>'+esc(a.k==='term'?a.cap:(a.cap||('IMG_'+(1000+i)+'.jpg')))+'</b></div>'+body+'</div></div>';}).join('');
+    return '<div class="win'+(a.k==='term'?' term':'')+'" data-w="'+i+'" style="--fd:'+(6+i%3*1.7)+'s;--fl:-'+(i*1.3)+'s"><div class="win-f"><div class="win-bar"><button type="button" class="wb-x" data-wa="close" aria-label="Tutup"></button><button type="button" class="wb-m" data-wa="min" aria-label="Kecilkan"></button><button type="button" class="wb-z" data-wa="max" aria-label="Perbesar"></button><b>'+esc(albTitle(a,i))+'</b></div>'+body+'<i class="win-rs" aria-hidden="true"></i></div></div>';}).join('');
   $('ab2P').textContent=(LANG==='en'?(p.aboutShortEn||t('ab2Def')):(p.aboutShort||t('ab2Def')));
-  $('albHint').textContent=t(matchMedia('(hover: none)').matches?'albHintT':'albHint');albShow(ALB.i,true);}
-/* window slots: front window large, the rest cascade behind it like an open desktop */
-function albSlots(n){const m=innerWidth<=760;
-  if(m)return {front:{l:4,t:22,w:92},back:k=>({l:[2,48,26,14][k%4],t:[2,6,0,8][k%4],w:[40,40,42,38][k%4],r:[-3,2,-1,3][k%4]})};
-  return {front:{l:21,t:6,w:58},back:k=>({l:[3,64,6,66,38][k%5],t:[12,4,46,40,0][k%5],w:[30,31,26,27,24][k%5],r:[-2.5,2,1.5,-2,0][k%5]})};}
-function albShow(i,silent){const n=ALB.items.length;if(!n)return;ALB.i=(i+n)%n;const S2=albSlots(n);let k=0;
-  document.querySelectorAll('#dskArea .win').forEach(w=>{const wi=+w.dataset.w,f=wi===ALB.i;w.classList.toggle('front',f);
-    const s=f?S2.front:S2.back(k++);w.style.left=s.l+'%';w.style.top=s.t+'%';w.style.width=s.w+'%';w.style.transform='rotate('+(s.r||0)+'deg)';
-    w.style.zIndex=f?40:10+((wi-ALB.i+n)%n);w.style.setProperty('--d',f?1:(.35+.2*(k%3)));});
-  $('albN').textContent=(ALB.i+1)+' / '+n;}
-function albStep(d){albShow(ALB.i+d);}
-function setupAlbum(){const al=$('album');if(!al)return;
-  document.addEventListener('click',e=>{const b=e.target.closest('[data-alb]');if(b){ALB.user=true;albStep(+b.dataset.alb);return;}
-    const th=e.target.closest('[data-th]');if(th){ALB.user=true;albShow(+th.dataset.th);return;}
-    const w=e.target.closest('#dskArea .win:not(.front)');if(w){ALB.user=true;albShow(+w.dataset.w);}});
-  al.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){ALB.user=true;albStep(1);e.preventDefault();}if(e.key==='ArrowLeft'){ALB.user=true;albStep(-1);e.preventDefault();}});
-  let sx=null;$('dskArea').addEventListener('pointerdown',e=>{if(e.target.closest('.win.front'))sx=e.clientX;});
-  addEventListener('pointerup',e=>{if(sx==null)return;const dx=e.clientX-sx;sx=null;if(Math.abs(dx)>50){ALB.user=true;albStep(dx<0?1:-1);}});
-  addEventListener('resize',()=>albShow(ALB.i,true));
-  const ar=$('dskArea');if(matchMedia('(hover: hover)').matches&&!reduce)al.addEventListener('pointermove',e=>{const r=al.getBoundingClientRect();ar.style.setProperty('--px',((e.clientX-r.left)/r.width-.5)*-28);ar.style.setProperty('--py',((e.clientY-r.top)/r.height-.5)*-20);});
-  /* windows fly in from the dock when the desktop scrolls into view */
-  if(G&&ST&&!reduce)G.from('#dskArea .win-f',{y:160,scale:.7,opacity:0,duration:1,ease:'expo.out',stagger:.08,scrollTrigger:{trigger:al,start:'top 75%',once:true},clearProps:'opacity,scale,y'});
-  if('IntersectionObserver' in window)new IntersectionObserver(es=>{ALB.vis=es[0].isIntersecting;},{threshold:.4}).observe(al);
-  setInterval(()=>{if(ALB.vis&&!ALB.user&&!document.hidden&&!al.matches(':hover'))albStep(1);},4500);}
+  $('albHint').textContent=t(matchMedia('(hover: none)').matches?'albHintT':'albHint');
+  if(ALB.pos.length!==ALB.items.length)albLayout();albApply();albFocus(Math.min(ALB.top,ALB.items.length-1));}
+/* default arrangement: overlapping cascade, newest photo on top */
+function albLayout(){const n=ALB.items.length,m=innerWidth<=760;
+  const L=m?[[4,30,84],[2,4,52],[44,10,54],[18,18,60],[30,2,50]]:[[22,8,54],[3,14,34],[63,4,34],[8,48,30],[66,44,30],[40,0,28]];
+  ALB.pos=ALB.items.map((a,i)=>{const s=L[i%L.length];return {l:s[0],t:s[1],w:s[2],hid:false,max:null};});
+  ALB.z=20;for(let i=n-1;i>=0;i--)ALB.pos[i].z=++ALB.z;ALB.top=0;}
+function albApply(anim){document.querySelectorAll('#dskArea .win').forEach(w=>{const p=ALB.pos[+w.dataset.w];if(!p)return;
+  w.classList.toggle('anim',!!anim);w.style.left=p.l+'%';w.style.top=p.t+'%';w.style.width=p.w+'%';w.style.zIndex=p.z;w.classList.toggle('hid',p.hid);});
+  if(anim)setTimeout(()=>document.querySelectorAll('#dskArea .win.anim').forEach(w=>w.classList.remove('anim')),700);albTray();}
+function albFocus(i){const p=ALB.pos[i];if(!p)return;p.hid=false;p.z=++ALB.z;ALB.top=i;
+  document.querySelectorAll('#dskArea .win').forEach(w=>{const wi=+w.dataset.w;w.classList.toggle('front',wi===i);w.style.zIndex=ALB.pos[wi].z;w.classList.toggle('hid',ALB.pos[wi].hid);});
+  const vis=ALB.pos.map((q,k)=>k).filter(k=>!ALB.pos[k].hid);$('albN').textContent=(vis.indexOf(i)+1)+' / '+vis.length;albTray();}
+function albTray(){const tr=$('albTray');if(!tr)return;const h=ALB.items.map((a,i)=>ALB.pos[i]&&ALB.pos[i].hid?'<button type="button" data-wopen="'+i+'">'+esc(albTitle(a,i))+'</button>':'').join('');tr.innerHTML=h;tr.hidden=!h;}
+function albStep(d){const vis=ALB.pos.map((q,k)=>k).filter(k=>!ALB.pos[k].hid);if(!vis.length){albFocus(0);return;}
+  /* bring the window under the top one forward, like ⌘` */
+  const order=vis.slice().sort((a,b)=>ALB.pos[b].z-ALB.pos[a].z);albFocus(d>0?order[order.length-1]:(order[1]!=null?order[1]:order[0]));}
+function albMax(i){const p=ALB.pos[i],ar=$('dskArea').getBoundingClientRect();
+  if(p.max){Object.assign(p,p.max);p.max=null;}
+  else{p.max={l:p.l,t:p.t,w:p.w};const w=Math.min(100,(ar.height-28)*16/9/ar.width*100);p.w=w;p.l=(100-w)/2;p.t=0;}
+  albApply(true);albFocus(i);}
+function setupAlbum(){const al=$('album'),area=$('dskArea');if(!al)return;
+  document.addEventListener('click',e=>{const b=e.target.closest('[data-alb]');if(b){albStep(+b.dataset.alb);return;}
+    const o=e.target.closest('[data-wopen]');if(o){albFocus(+o.dataset.wopen);return;}
+    if(e.target.closest('[data-wreset]')){albLayout();albApply(true);albFocus(0);return;}
+    const a=e.target.closest('#dskArea [data-wa]');if(a){const i=+a.closest('.win').dataset.w,act=a.dataset.wa;
+      if(act==='max')albMax(i);else{ALB.pos[i].hid=true;albApply();const vis=ALB.pos.map((q,k)=>k).filter(k=>!ALB.pos[k].hid).sort((x,y)=>ALB.pos[y].z-ALB.pos[x].z);if(vis.length)albFocus(vis[0]);else{$('albN').textContent='0 / '+ALB.items.length;}}}});
+  al.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){albStep(1);e.preventDefault();}if(e.key==='ArrowLeft'){albStep(-1);e.preventDefault();}});
+  /* drag by the title bar, resize from the corner */
+  let D=null;
+  area.addEventListener('pointerdown',e=>{const w=e.target.closest('.win');if(!w)return;const i=+w.dataset.w;albFocus(i);
+    if(e.target.closest('[data-wa]'))return;const rs=e.target.closest('.win-rs'),bar=e.target.closest('.win-bar');if(!rs&&!bar)return;
+    if(bar){const now=performance.now();if(ALB.lastBar===i&&now-ALB.lastT<380){ALB.lastBar=-1;albMax(i);e.preventDefault();return;}ALB.lastBar=i;ALB.lastT=now;}
+    const r=area.getBoundingClientRect(),p=ALB.pos[i];D={i,w,rs:!!rs,x:e.clientX,y:e.clientY,l:p.l,t:p.t,ww:p.w,W:r.width,H:r.height};
+    w.classList.add('drag');w.setPointerCapture(e.pointerId);e.preventDefault();});
+  area.addEventListener('pointermove',e=>{if(!D)return;const p=ALB.pos[D.i],dx=(e.clientX-D.x)/D.W*100,dy=(e.clientY-D.y)/D.H*100;
+    if(D.rs){p.w=Math.max(innerWidth<=760?40:18,Math.min(100-p.l,D.ww+dx));D.w.style.width=p.w+'%';}
+    else{p.l=Math.max(-p.w+12,Math.min(92,D.l+dx));p.t=Math.max(0,Math.min(92,D.t+dy));D.w.style.left=p.l+'%';D.w.style.top=p.t+'%';}
+    p.max=null;});
+  const end=()=>{if(!D)return;D.w.classList.remove('drag');D=null;};
+  area.addEventListener('pointerup',end);area.addEventListener('pointercancel',end);
+  addEventListener('resize',()=>albApply());
+  /* windows drift in when the section scrolls into view */
+  if(G&&ST&&!reduce)G.from('#dskArea .win-f',{y:160,scale:.7,opacity:0,duration:1,ease:'expo.out',stagger:.08,scrollTrigger:{trigger:al,start:'top 75%',once:true},clearProps:'opacity,scale,y'});}
 
 /* ================= ZOOM GATE ================= */
 const ZG={a:[800,420],done:false};
@@ -2638,8 +2688,8 @@ Object.assign(T.en,{profK:'Profile',daysW:'days',nJourney:'Journey',jrEyebrow:'J
   ab_aboutMottoSub:'Starting with a simple prototype is worth more than waiting for a perfect plan.',
   ab_aboutStory:'I am Zafran Ali Ihsan Nasution, a *Computer Science* student at Universitas Sumatera Utara (class of 2026) whose main interests are *robotics* and *artificial intelligence*. I am drawn to the point where software meets the physical world: how a system can read its surroundings through sensors, process that data and make decisions on its own. Right now I am building my foundation through *C++* and *Python*, microcontroller experiments with *Arduino*, and the fundamentals of *machine learning*. I believe the best way to understand technology is to build it, test it and improve it again and again. Going forward, I want to develop intelligent robotic systems that create real value, and this portfolio is an open record of every step along the way.',
   ab_aboutLaws:'Learn by building | I test new concepts through small projects so they do not stay theoretical.\nIterate without fear of failure | Every error is data. Build, test, evaluate, then improve.\nDocument and share | I keep clear notes on the process so it can be revisited and help others.'});
-Object.assign(T.id,{ab2K:'Tentang saya',ab2Def:'Mahasiswa Ilmu Komputer yang senang membuat sesuatu yang bisa bergerak dan berpikir, dari robot kecil sampai program AI. Di sini saya menyimpan cerita di balik setiap project, kemenangan kecil, dan pelajaran sepanjang kuliah.',albD1:'Zafran, 2026',albD2:'Universitas Sumatera Utara',albHint:'klik jendela di belakang atau tekan ← →',albHintT:'geser foto ke samping untuk melihat berikutnya',zgMarqDef:['Dari ide jadi nyata','Robotika & AI','Kode yang bergerak','Belajar dengan membangun','Satu project, satu langkah','Gagal, coba, berhasil'],flipHint:'arahkan untuk membalik',loopW:['Rakit','Uji','Evaluasi','Perbaiki'],curOpen:'buka',zgK:'Portofolio · karya pilihan',zgHead:'Karya yang <em>saya bangun</em>',zgSub:'Robotika, AI, aplikasi, sampai program kecil. Setiap karya dicatat di sini, lengkap dengan ceritanya.',zgHint:'Scroll untuk masuk',foldSoon:'Segera',foldNone:'Belum ada project',foldClose:'Tutup folder',nTools:'Tools',gsHint:'Arahkan kursor untuk memutar · klik menara untuk membuka semesternya',ringK:'perjalanan',cdK:'Hitung mundur menuju wisuda',cdL:['hari','jam','menit','detik'],cdUntil:'Target wisuda',youHere:'KAMU DI SINI',gradWord:'WISUDA',semEmpty:'Belum ada jejak',wsHead:'Perlengkapan untuk <em>merakit ide</em>',wsDesc:'Semua yang saya pakai untuk mengubah ide menjadi sesuatu yang benar-benar berjalan: tools dan bahasa pemrograman di layar kiri, keahlian dan bahasa komunikasi di layar kanan. Daftarnya terus bertambah setiap semester.',tProg:'Bahasa pemrograman',tLanguage:'Bahasa',noProg:'Tambah jejak berjenis Bahasa Pemrograman, misalnya C++ atau Python.',langLv:['Sedikit','Dasar','Menengah','Mahir','Bahasa ibu'],toolTitle:'Tools, kode <em>&amp; bahasa</em>',nLib:'Library',libEyebrow:'Arsip lengkap',libLead:'Semua project, perjalanan kuliah, dan pencapaian dalam satu tempat. Pilih kategori, cari, lalu buka salah satu untuk membaca detailnya.',lAll:'Semua',lProj:'Project',lJourney:'Perjalanan',lAch:'Achievement',libSearch:'Cari judul, cerita, atau tag…',seeAllN:'Lihat semua',loadMore:'Tampilkan lebih banyak',noResult:'Tidak ada yang cocok dengan pencarianmu.',latest:'Jejak terbaru',showing:'Menampilkan',of:'dari',seeAllProj:'Lihat semua project',allTier:'Semua tingkat'});
-Object.assign(T.en,{ab2K:'About me',ab2Def:'A Computer Science student who loves making things that move and think, from small robots to AI programs. This is where I keep the stories behind every project, small wins and lessons from my college years.',albD1:'Zafran, 2026',albD2:'Universitas Sumatera Utara',albHint:'click a window behind or press ← →',albHintT:'swipe the photo to see the next one',zgMarqDef:['From idea to reality','Robotics & AI','Code that moves','Learning by building','One project, one step','Fail, try, succeed'],flipHint:'hover to flip',loopW:['Build','Test','Evaluate','Improve'],curOpen:'open',zgK:'Portfolio · selected work',zgHead:'Things <em>I have built</em>',zgSub:'Robotics, AI, apps and small programs. Every piece of work is logged here with its story.',zgHint:'Scroll to dive in',foldSoon:'Coming up',foldNone:'No projects yet',foldClose:'Close folder',nTools:'Tools',gsHint:'Move your cursor to rotate · click a tower to open that semester',ringK:'of the journey',cdK:'Countdown to graduation',cdL:['days','hrs','min','sec'],cdUntil:'Expected graduation',youHere:'YOU ARE HERE',gradWord:'GRADUATION',semEmpty:'No entries yet',wsHead:'The kit for <em>building ideas</em>',wsDesc:'Everything I use to turn ideas into things that actually run: tools and programming languages on the left screens, skills and spoken languages on the right. The list grows every semester.',tProg:'Programming languages',tLanguage:'Languages',noProg:'Add a Programming entry, for example C++ or Python.',langLv:['A little','Basic','Intermediate','Advanced','Native'],toolTitle:'Tools, code <em>&amp; languages</em>',nLib:'Library',libEyebrow:'Complete archive',libLead:'Every project, college milestone, and achievement in one place. Pick a category, search, then open one to read the details.',lAll:'All',lProj:'Projects',lJourney:'Journey',lAch:'Achievements',libSearch:'Search titles, stories, or tags…',seeAllN:'See all',loadMore:'Show more',noResult:'Nothing matches your search.',latest:'Latest entries',showing:'Showing',of:'of',seeAllProj:'See all projects',allTier:'All tiers'});
+Object.assign(T.id,{ab2K:'Tentang saya',ab2Def:'Mahasiswa Ilmu Komputer yang senang membuat sesuatu yang bisa bergerak dan berpikir, dari robot kecil sampai program AI. Di sini saya menyimpan cerita di balik setiap project, kemenangan kecil, dan pelajaran sepanjang kuliah.',albD1:'Zafran, 2026',albD2:'Universitas Sumatera Utara',albHint:'seret judul jendela untuk memindah · tarik sudut kanan bawah untuk ubah ukuran · klik dua kali judul untuk perbesar',albHintT:'seret judul jendela untuk memindah · tarik sudut untuk ubah ukuran',albReset:'Rapikan',zgMarqDef:['Dari ide jadi nyata','Robotika & AI','Kode yang bergerak','Belajar dengan membangun','Satu project, satu langkah','Gagal, coba, berhasil'],flipHint:'arahkan untuk membalik',loopW:['Rakit','Uji','Evaluasi','Perbaiki'],curOpen:'buka',zgK:'Portofolio · karya pilihan',zgHead:'Karya yang <em>saya bangun</em>',zgSub:'Robotika, AI, aplikasi, sampai program kecil. Setiap karya dicatat di sini, lengkap dengan ceritanya.',zgHint:'Scroll untuk masuk',foldSoon:'Segera',foldNone:'Belum ada project',foldClose:'Tutup folder',nTools:'Tools',gsHint:'Arahkan kursor untuk memutar · klik menara untuk membuka semesternya',ringK:'perjalanan',cdK:'Hitung mundur menuju wisuda',cdL:['hari','jam','menit','detik'],cdUntil:'Target wisuda',youHere:'KAMU DI SINI',gradWord:'WISUDA',semEmpty:'Belum ada jejak',wsHead:'Perlengkapan untuk <em>merakit ide</em>',wsDesc:'Semua yang saya pakai untuk mengubah ide menjadi sesuatu yang benar-benar berjalan: tools dan bahasa pemrograman di layar kiri, keahlian dan bahasa komunikasi di layar kanan. Daftarnya terus bertambah setiap semester.',tProg:'Bahasa pemrograman',tLanguage:'Bahasa',noProg:'Tambah jejak berjenis Bahasa Pemrograman, misalnya C++ atau Python.',langLv:['Sedikit','Dasar','Menengah','Mahir','Bahasa ibu'],toolTitle:'Tools, kode <em>&amp; bahasa</em>',nLib:'Library',libEyebrow:'Arsip lengkap',libLead:'Semua project, perjalanan kuliah, dan pencapaian dalam satu tempat. Pilih kategori, cari, lalu buka salah satu untuk membaca detailnya.',lAll:'Semua',lProj:'Project',lJourney:'Perjalanan',lAch:'Achievement',libSearch:'Cari judul, cerita, atau tag…',seeAllN:'Lihat semua',loadMore:'Tampilkan lebih banyak',noResult:'Tidak ada yang cocok dengan pencarianmu.',latest:'Jejak terbaru',showing:'Menampilkan',of:'dari',seeAllProj:'Lihat semua project',allTier:'Semua tingkat'});
+Object.assign(T.en,{ab2K:'About me',ab2Def:'A Computer Science student who loves making things that move and think, from small robots to AI programs. This is where I keep the stories behind every project, small wins and lessons from my college years.',albD1:'Zafran, 2026',albD2:'Universitas Sumatera Utara',albHint:'drag a title bar to move · drag the bottom-right corner to resize · double-click a title to zoom',albHintT:'drag a title bar to move · drag the corner to resize',albReset:'Tidy up',zgMarqDef:['From idea to reality','Robotics & AI','Code that moves','Learning by building','One project, one step','Fail, try, succeed'],flipHint:'hover to flip',loopW:['Build','Test','Evaluate','Improve'],curOpen:'open',zgK:'Portfolio · selected work',zgHead:'Things <em>I have built</em>',zgSub:'Robotics, AI, apps and small programs. Every piece of work is logged here with its story.',zgHint:'Scroll to dive in',foldSoon:'Coming up',foldNone:'No projects yet',foldClose:'Close folder',nTools:'Tools',gsHint:'Move your cursor to rotate · click a tower to open that semester',ringK:'of the journey',cdK:'Countdown to graduation',cdL:['days','hrs','min','sec'],cdUntil:'Expected graduation',youHere:'YOU ARE HERE',gradWord:'GRADUATION',semEmpty:'No entries yet',wsHead:'The kit for <em>building ideas</em>',wsDesc:'Everything I use to turn ideas into things that actually run: tools and programming languages on the left screens, skills and spoken languages on the right. The list grows every semester.',tProg:'Programming languages',tLanguage:'Languages',noProg:'Add a Programming entry, for example C++ or Python.',langLv:['A little','Basic','Intermediate','Advanced','Native'],toolTitle:'Tools, code <em>&amp; languages</em>',nLib:'Library',libEyebrow:'Complete archive',libLead:'Every project, college milestone, and achievement in one place. Pick a category, search, then open one to read the details.',lAll:'All',lProj:'Projects',lJourney:'Journey',lAch:'Achievements',libSearch:'Search titles, stories, or tags…',seeAllN:'See all',loadMore:'Show more',noResult:'Nothing matches your search.',latest:'Latest entries',showing:'Showing',of:'of',seeAllProj:'See all projects',allTier:'All tiers'});
 const LIB={tab:'all',q:'',limit:12,tier:'all'};
 const LIBTABS=['all','project','jejak','achievement'];
 function libFilter(list){const q=LIB.q.trim().toLowerCase();if(!q)return list;return list.filter(e=>((e.title||'')+' '+(e.desc||'')+' '+(e.tags||[]).join(' ')+' '+tl(e.type)).toLowerCase().includes(q));}
