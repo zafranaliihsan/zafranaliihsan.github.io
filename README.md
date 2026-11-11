@@ -78,3 +78,13 @@ Bisa diubah lewat **Edit profil → Teks berjalan**, atau di `data.js` dalam `pr
 - `marquee`: teks berjalan di bagian Portofolio (krem), satu frasa per baris (`\n`). Kosongkan untuk memakai judul project otomatis.
 - `tapeA`: pita garis polisi biru, pisahkan frasa dengan `|`.
 - `tapeB`: pita garis polisi oranye, pisahkan dengan `|`. Tulis `{sem}` untuk semester sekarang.
+
+## Album foto (bagian Tentang)
+
+Lewat **Edit profil → Bagian Tentang**:
+- **Tambah foto ke album:** pilih satu atau beberapa foto sekaligus. Foto otomatis dikecilkan lalu disimpan ke folder `assets/`.
+- **Keterangan foto:** satu baris per foto, sesuai urutan album.
+- **Kosongkan album:** centang kalau mau mengganti semua foto dengan yang baru dipilih.
+- Selama album kosong, yang tampil adalah foto hero dan foto kartu.
+
+Di `data.js`, album tersimpan di `profile.album` sebagai daftar `{ "img": "nama-file.webp", "cap": "keterangan" }`.

@@ -1193,6 +1193,34 @@ main{counter-reset:sec}
 @media (max-width:1000px){.ab-bento{grid-template-columns:1fr}.t-prof{grid-row:auto}}
 @media (max-width:760px){.t-prof{padding:22px 20px}.t-motto,.flip-in{min-height:420px}.flip-b{grid-template-columns:1fr;justify-items:center;text-align:center}.loop{width:150px;height:150px}.deck{height:250px}.dcard b{font-size:44px}}
 @media (hover:none){.t-motto:hover .flip-in{transform:none}.t-motto.flipped .flip-in{transform:rotateY(180deg)}}
+/* ============ TENTANG: photo album ============ */
+.ab2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,96px);align-items:center}
+.album{position:relative;height:clamp(440px,46vw,600px);perspective:1400px;outline:none;touch-action:pan-y}
+.album-stack{position:absolute;inset:0}
+.pol{position:absolute;left:50%;top:50%;width:min(78%,380px);margin:0;padding:14px 14px 0;background:#F3EDE2;border-radius:3px;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 30px 50px -22px rgba(0,0,0,.85),0 2px 6px rgba(0,0,0,.35);
+  transform:translate(-50%,-50%) translate(var(--x,0px),var(--y,0px)) rotate(var(--r,0deg)) scale(var(--s,1));
+  transition:transform .75s cubic-bezier(.2,.9,.25,1),opacity .5s,box-shadow .4s;cursor:grab;user-select:none;-webkit-user-select:none;will-change:transform}
+.pol.top{box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 40px 70px -24px rgba(0,0,0,.9),0 2px 8px rgba(0,0,0,.4)}
+.pol.drag{transition:none;cursor:grabbing}
+.pol.gone{opacity:0}
+.pol-img{display:block;width:100%;aspect-ratio:4/5;overflow:hidden;background:radial-gradient(120% 100% at 30% 20%,#FFB27A,#E8590C 55%,#3a1606);position:relative}
+.pol-img img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block;pointer-events:none;-webkit-user-drag:none}
+.pol-img::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.18),transparent 35%),radial-gradient(130% 100% at 50% 50%,transparent 60%,rgba(0,0,0,.25));pointer-events:none}
+.pol figcaption{font-family:var(--hand);font-size:clamp(17px,1.6vw,21px);line-height:1.1;color:#2b2622;padding:14px 4px 18px;min-height:58px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pol figcaption small{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#8a7f72;white-space:nowrap}
+.pol::before{content:"";position:absolute;left:50%;top:-12px;width:96px;height:26px;translate:-50% 0;rotate:var(--tr,-3deg);background:rgba(255,226,170,.55);box-shadow:0 1px 2px rgba(0,0,0,.15);backdrop-filter:blur(1px)}
+.ab2-txt{display:grid;gap:22px;align-content:center}
+.ab2-txt .eyebrow{justify-self:start}
+.ab2-p{margin:0;font-size:clamp(17px,1.45vw,20px);line-height:1.7;color:rgba(239,231,218,.82);max-width:46ch;text-wrap:pretty}
+.ab2-motto{margin:0;font-family:var(--serif);font-style:italic;font-size:clamp(24px,2.2vw,32px);line-height:1.15;color:var(--spark);max-width:22ch}
+.album-ctl{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:4px}
+.album-ctl button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--text);font-size:17px;cursor:pointer;transition:background .3s,color .3s,border-color .3s}
+.album-ctl button:hover{background:var(--text);color:var(--ink);border-color:var(--text)}
+.album-ctl span{font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--text);min-width:64px;text-align:center}
+.album-ctl small{font-size:13px;color:var(--muted);flex-basis:100%}
+@media (max-width:900px){.ab2{grid-template-columns:1fr;gap:28px}.album{height:min(118vw,520px)}.pol{width:min(80%,330px)}}
+.chk{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted);cursor:pointer}.chk input{width:18px;height:18px;accent-color:var(--spark)}
 </style>
 
 </head>
@@ -1249,41 +1277,20 @@ main{counter-reset:sec}
   </div>
 
   <section class="sec" id="tentang">
-    <div class="wrap">
-      <div class="sec-head"><div><span class="eyebrow" data-i18n="aboutEyebrow">Tentang · spec sheet</span><h2 class="big-title" data-split data-i18n-html="aboutTitle">Kenalan sama <em>mesinnya</em></h2></div><p data-fade data-i18n="aboutLead"></p></div>
-      <div class="bp" id="bp" data-fade>
-        <div class="bp-top"><span><span data-i18n="profK">Profil</span> · <b id="bpCode">ZFN-2026</b></span><span><span data-i18n="bpRev">Revisi</span> <b id="bpRev">01</b></span><span class="led"><i></i><b data-i18n="bpOnline">Online · sedang belajar</b></span></div>
-        <div class="bp-body">
-          <div class="bp-stage" id="bpStage">
-            <svg class="bp-lines" id="bpLines" aria-hidden="true"></svg>
-            <div class="bp-board" id="bpBoard"><div class="bp-col" id="bpColL"></div><div class="cpu" id="bpChip"></div><div class="bp-col" id="bpColR"></div></div>
-            <span class="bp-cap" id="bpCap">Fig. 01 · tampak depan</span>
-            <span class="bp-hint" id="bpHint"></span>
-          </div>
-          <div class="bp-side">
-            <dl class="spec" id="specList"></dl>
-            <div class="readout" id="readout" aria-live="polite"><small><span data-i18n="roK">Readout</span> · <b id="roK"></b></small><p id="roText"></p></div>
-          </div>
-        </div>
+    <div class="wrap ab2">
+      <div class="album" id="album" aria-roledescription="album foto" tabindex="0">
+        <div class="album-stack" id="albStack"></div>
       </div>
-      <div class="ab-bento" id="abBento">
-        <article class="tile t-prof" data-tilt id="abProf">
-          <i class="tile-orb"></i>
-          <div class="ab-h"><span class="eyebrow" data-i18n="profK">Profil</span><small id="storyMeta"></small></div>
-          <p class="ab-lead" id="abLead"></p>
-          <p class="ab-rest" id="abStory"></p>
-          <div class="ab-kw" id="abKw"></div>
-        </article>
-        <div class="tile t-motto" data-tilt id="abMottoT" tabindex="0">
-          <div class="flip-in">
-            <figure class="flip-f" id="abMotto"></figure>
-            <div class="flip-b" id="abMottoBack"></div>
-          </div>
-        </div>
-        <div class="tile t-deck" id="abDeckT">
-          <div class="ab-h"><span class="eyebrow" data-i18n="lawsTitle">Prinsip kerja</span><small id="deckN"></small></div>
-          <div class="deck" id="lawGrid" tabindex="0" aria-live="polite"></div>
-          <div class="deck-ctl"><button type="button" data-deck="-1" aria-label="Sebelumnya">←</button><span class="deck-dots" id="deckDots"></span><button type="button" data-deck="1" aria-label="Berikutnya">→</button></div>
+      <div class="ab2-txt">
+        <span class="eyebrow" data-i18n="ab2K">Tentang saya</span>
+        <h2 class="big-title" data-split data-i18n-html="ab2Title">Halo, saya <em>Zafran.</em></h2>
+        <p class="ab2-p" id="ab2P"></p>
+        <p class="ab2-motto" id="ab2Motto"></p>
+        <div class="album-ctl">
+          <button type="button" data-alb="-1" aria-label="Foto sebelumnya">←</button>
+          <span id="albN">01 / 01</span>
+          <button type="button" data-alb="1" aria-label="Foto berikutnya">→</button>
+          <small id="albHint"></small>
         </div>
       </div>
     </div>
@@ -1499,23 +1506,17 @@ main{counter-reset:sec}
     <label class="f" for="pBio">Bio singkat (Indonesia)<textarea id="pBio" maxlength="400"></textarea></label>
     <label class="f" for="pBioEn">Bio singkat (English)<textarea id="pBioEn" maxlength="400"></textarea></label>
     <div class="sub">Bagian Tentang</div>
-    <label class="f" for="pBase">Base / kota<input type="text" id="pBase" maxlength="60" placeholder="Medan, Sumatera Utara"></label>
+    <div class="row2">
+      <label class="f" for="pShort">Teks singkat tentang saya (Indonesia)<textarea id="pShort" maxlength="500" rows="4"></textarea></label>
+      <label class="f" for="pShortEn">Teks singkat (English)<textarea id="pShortEn" maxlength="500" rows="4"></textarea></label>
+    </div>
     <div class="row2">
       <label class="f" for="pMotto">Motto (Indonesia)<input type="text" id="pMotto" maxlength="90"></label>
       <label class="f" for="pMottoEn">Motto (English)<input type="text" id="pMottoEn" maxlength="90"></label>
     </div>
-    <div class="row2">
-      <label class="f" for="pMottoSub">Kalimat di bawah motto (Indonesia)<input type="text" id="pMottoSub" maxlength="120"></label>
-      <label class="f" for="pMottoSubEn">Kalimat di bawah motto (English)<input type="text" id="pMottoSubEn" maxlength="120"></label>
-    </div>
-    <label class="f" for="pStory">Profil, 1 paragraf (Indonesia). Apit kata dengan *bintang* supaya diberi sorotan.<textarea id="pStory" maxlength="2400" rows="6"></textarea></label>
-    <label class="f" for="pStoryEn">Profil (English)<textarea id="pStoryEn" maxlength="2400" rows="6"></textarea></label>
-    <label class="f" for="pParts">Modul (Indonesia), satu per baris: LABEL | judul | cerita<textarea id="pParts" maxlength="2000" rows="5"></textarea></label>
-    <label class="f" for="pPartsEn">Modul (English)<textarea id="pPartsEn" maxlength="2000" rows="5"></textarea></label>
-    <div class="row2">
-      <label class="f" for="pLaws">Prinsip kerja (Indonesia), satu per baris: judul | penjelasan<textarea id="pLaws" maxlength="900" rows="4"></textarea></label>
-      <label class="f" for="pLawsEn">Prinsip kerja (English)<textarea id="pLawsEn" maxlength="900" rows="4"></textarea></label>
-    </div>
+    <label class="f" for="pAlbum">Tambah foto ke album (bisa pilih beberapa sekaligus)<input type="file" id="pAlbum" accept="image/png,image/jpeg,image/webp" multiple></label>
+    <label class="f" for="pAlbumCap">Keterangan foto, satu baris per foto sesuai urutan album<textarea id="pAlbumCap" maxlength="1200" rows="4"></textarea><span class="hint" id="albInfo"></span></label>
+    <label class="chk"><input type="checkbox" id="pAlbumReset"> Kosongkan album lalu pakai hanya foto yang baru dipilih</label>
     <div class="sub">Teks berjalan</div>
     <label class="f" for="pMarq">Teks berjalan di bagian Portofolio (krem). Satu frasa per baris. Kosongkan untuk memakai kalimat bawaan.<textarea id="pMarq" maxlength="600" rows="3" placeholder="Robotika&#10;AI / ML&#10;Arduino"></textarea></label>
     <div class="row2">
@@ -1992,7 +1993,7 @@ function renderTapes(){const p=S.profile,n=(p.name||'ZAFRAN').toUpperCase(),sem=
   const ta=String(p.tapeA||'').trim()?fx(p.tapeA):'PROJECT ✦ '+esc(n)+' ✦ JEJAK KARIER',tb=String(p.tapeB||'').trim()?fx(p.tapeB):esc(t('tapeB'))+' '+sem;
   const a=Array(10).fill('<span>'+ta+'</span>').join(''),b=Array(10).fill('<span>'+tb+'</span>').join('');
   document.querySelector('[data-tape=a]').innerHTML=a+a;document.querySelector('[data-tape=b]').innerHTML=b+b;}
-function renderAll(){renderHero();if($('zgStats'))renderZg();renderAbout();renderIcons();renderTapes();Wheel.render();renderChapters();renderAchHome();renderToolbox();renderLookback();if(curView!=='home')renderPage();animateNew();}
+function renderAll(){renderHero();renderAlbum();if($('zgStats'))renderZg();renderIcons();renderTapes();Wheel.render();renderChapters();renderAchHome();renderToolbox();renderLookback();if(curView!=='home')renderPage();animateNew();}
 
 /* ================= new i18n strings ================= */
 Object.assign(T.id,{journeyLead:'Perjalanan kuliah dari semester 1 sampai wisuda, dibagi per bab. Geser untuk menjelajah, klik satu bab untuk detailnya.',seeJourney:'Lihat perjalanan lengkap',youHere:'Kamu di sini',lockedL:'Terkunci',doneL:'Selesai',goalL:'Wisuda',monthsLeft:'bulan lagi',entriesIn:'jejak',noneYet:'Belum ada jejak di semester ini',lockedHint:'Bab ini akan terbuka nanti',scrollHint:'Geser ke samping atau seret dengan mouse untuk menjelajah',
@@ -2283,6 +2284,52 @@ function setupBento(){
     const st=$('bpStage');if(st&&!st.classList.contains('stack')){const inS=e.target.closest&&e.target.closest('#bpStage');
       if(inS){const r=st.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;st.style.transform='rotateX('+(-y*9).toFixed(2)+'deg) rotateY('+(x*11).toFixed(2)+'deg)';}else if(st.style.transform)st.style.transform='';}},{passive:true});
 }
+
+/* ================= TENTANG: photo album (stack of polaroids you can throw to the back) ================= */
+const ALB={order:[],items:[],auto:0,user:false,vis:false};
+function albItems(){const p=S.profile,own=Array.isArray(p.album)?p.album.filter(a=>a&&a.img):[];
+  if(own.length)return own;const d=[];if(p.heroPhoto)d.push({img:p.heroPhoto,cap:t('albD1')});if(p.photo)d.push({img:p.photo,cap:t('albD2')});
+  if(!d.length)d.push({img:null,cap:t('albD1')});return d;}
+function renderAlbum(){
+  const p=S.profile,items=albItems();ALB.items=items;
+  if(ALB.order.length!==items.length)ALB.order=items.map((_,i)=>i);
+  const rot=i=>[-4,5,-8,3,-2,7,-6,4][i%8];
+  $('albStack').innerHTML=items.map((a,i)=>{const src=blob(a.img);return '<figure class="pol" data-pi="'+i+'" style="--tr:'+(rot(i+3)*.6)+'deg">'+
+    '<span class="pol-img">'+(src?'<img src="'+src+'" alt="'+esc(a.cap||'')+'" loading="lazy" draggable="false">':'')+'</span><figcaption><span>'+esc(a.cap||'')+'</span><small>'+String(i+1).padStart(2,'0')+'</small></figcaption></figure>';}).join('');
+  $('ab2P').textContent=(LANG==='en'?(p.aboutShortEn||t('ab2Def')):(p.aboutShort||t('ab2Def')));
+  const m=(LANG==='en'?p.aboutMottoEn:p.aboutMotto)||t('ab_aboutMotto');$('ab2Motto').textContent='“'+m.replace(/^[“"]|[”"]$/g,'')+'”';
+  $('albHint').textContent=t(matchMedia('(hover: none)').matches?'albHintT':'albHint');
+  albLayout(false);}
+function albLayout(){const rot=i=>[-4,5,-8,3,-2,7,-6,4][i%8],n=ALB.order.length;
+  ALB.order.forEach((pi,k)=>{const el=document.querySelector('.pol[data-pi="'+pi+'"]');if(!el)return;
+    el.classList.toggle('top',k===0);el.style.zIndex=String(n-k);
+    if(k>3){el.style.opacity='0';}else el.style.opacity='';
+    el.style.setProperty('--x',(k===0?0:(k%2?1:-1)*(10+k*8))+'px');el.style.setProperty('--y',(k*-6)+'px');
+    el.style.setProperty('--r',(k===0?rot(pi)*.4:rot(pi+k))+'deg');el.style.setProperty('--s',(1-k*.035).toFixed(3));});
+  $('albN').textContent=String(ALB.order[0]+1).padStart(2,'0')+' / '+String(n).padStart(2,'0');}
+function albStep(dir,throwX){const n=ALB.order.length;if(n<2)return;
+  if(dir>0){const pi=ALB.order[0],el=document.querySelector('.pol[data-pi="'+pi+'"]');
+    if(el&&!reduce){const tx=throwX||1;el.style.setProperty('--x',(tx>0?520:-520)+'px');el.style.setProperty('--y','-40px');el.style.setProperty('--r',(tx>0?24:-24)+'deg');el.classList.add('gone');
+      setTimeout(()=>{ALB.order.push(ALB.order.shift());el.style.transition='none';el.classList.remove('gone');albLayout();void el.offsetWidth;el.style.transition='';},380);}
+    else{ALB.order.push(ALB.order.shift());albLayout();}}
+  else{ALB.order.unshift(ALB.order.pop());const el=document.querySelector('.pol[data-pi="'+ALB.order[0]+'"]');
+    if(el&&!reduce){el.style.transition='none';el.style.setProperty('--x','-520px');el.style.setProperty('--r','-24deg');el.style.zIndex='99';void el.offsetWidth;el.style.transition='';}
+    requestAnimationFrame(()=>albLayout());}}
+function setupAlbum(){const al=$('album');if(!al)return;
+  document.addEventListener('click',e=>{const b=e.target.closest('[data-alb]');if(b){ALB.user=true;albStep(+b.dataset.alb);}});
+  al.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){ALB.user=true;albStep(1);e.preventDefault();}if(e.key==='ArrowLeft'){ALB.user=true;albStep(-1);e.preventDefault();}});
+  let d=null;
+  al.addEventListener('pointerdown',e=>{const el=e.target.closest('.pol.top');if(!el)return;d={el,x:e.clientX,y:e.clientY,dx:0,id:e.pointerId};el.classList.add('drag');try{el.setPointerCapture(e.pointerId);}catch(_){}});
+  al.addEventListener('pointermove',e=>{
+    if(d){d.dx=e.clientX-d.x;const dy=e.clientY-d.y;d.el.style.setProperty('--x',d.dx+'px');d.el.style.setProperty('--y',(dy*.4)+'px');d.el.style.setProperty('--r',(d.dx*.06)+'deg');return;}
+    if(e.pointerType!=='mouse'||reduce)return;const el=al.querySelector('.pol.top');if(!el)return;const r=al.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    el.style.setProperty('--r',(x*6).toFixed(2)+'deg');el.style.setProperty('--x',(x*16).toFixed(1)+'px');el.style.setProperty('--y',(y*12).toFixed(1)+'px');});
+  const up=()=>{if(!d)return;const {el,dx}=d;d=null;el.classList.remove('drag');ALB.user=true;if(Math.abs(dx)>90)albStep(1,dx);else albLayout();};
+  al.addEventListener('pointerup',up);al.addEventListener('pointercancel',up);
+  al.addEventListener('pointerleave',e=>{if(!d&&e.pointerType==='mouse')albLayout();});
+  if('IntersectionObserver' in window)new IntersectionObserver(es=>{ALB.vis=es[0].isIntersecting;
+    if(ALB.vis&&!ALB.shown){ALB.shown=true;if(G&&!reduce)G.from('#albStack .pol',{y:-260,opacity:0,rotation:(i)=>i%2?28:-28,duration:1.1,stagger:{each:.12,from:'end'},ease:'back.out(1.3)',clearProps:'transform,opacity,rotation,y'});}},{threshold:.3}).observe(al);
+  setInterval(()=>{if(ALB.vis&&!ALB.user&&!document.hidden&&!al.matches(':hover'))albStep(1);},5200);}
 
 /* ================= ZOOM GATE ================= */
 const ZG={a:[800,420],done:false};
@@ -2592,8 +2639,8 @@ Object.assign(T.en,{profK:'Profile',daysW:'days',nJourney:'Journey',jrEyebrow:'J
   ab_aboutMottoSub:'Starting with a simple prototype is worth more than waiting for a perfect plan.',
   ab_aboutStory:'I am Zafran Ali Ihsan Nasution, a *Computer Science* student at Universitas Sumatera Utara (class of 2026) whose main interests are *robotics* and *artificial intelligence*. I am drawn to the point where software meets the physical world: how a system can read its surroundings through sensors, process that data and make decisions on its own. Right now I am building my foundation through *C++* and *Python*, microcontroller experiments with *Arduino*, and the fundamentals of *machine learning*. I believe the best way to understand technology is to build it, test it and improve it again and again. Going forward, I want to develop intelligent robotic systems that create real value, and this portfolio is an open record of every step along the way.',
   ab_aboutLaws:'Learn by building | I test new concepts through small projects so they do not stay theoretical.\nIterate without fear of failure | Every error is data. Build, test, evaluate, then improve.\nDocument and share | I keep clear notes on the process so it can be revisited and help others.'});
-Object.assign(T.id,{zgMarqDef:['Dari ide jadi nyata','Robotika & AI','Kode yang bergerak','Belajar dengan membangun','Satu project, satu langkah','Gagal, coba, berhasil'],flipHint:'arahkan untuk membalik',loopW:['Rakit','Uji','Evaluasi','Perbaiki'],curOpen:'buka',zgK:'Portofolio · karya pilihan',zgHead:'Karya yang <em>saya bangun</em>',zgSub:'Robotika, AI, aplikasi, sampai program kecil. Setiap karya dicatat di sini, lengkap dengan ceritanya.',zgHint:'Scroll untuk masuk',foldSoon:'Segera',foldNone:'Belum ada project',foldClose:'Tutup folder',nTools:'Tools',gsHint:'Arahkan kursor untuk memutar · klik menara untuk membuka semesternya',ringK:'perjalanan',cdK:'Hitung mundur menuju wisuda',cdL:['hari','jam','menit','detik'],cdUntil:'Target wisuda',youHere:'KAMU DI SINI',gradWord:'WISUDA',semEmpty:'Belum ada jejak',wsHead:'Perlengkapan untuk <em>merakit ide</em>',wsDesc:'Semua yang saya pakai untuk mengubah ide menjadi sesuatu yang benar-benar berjalan: tools dan bahasa pemrograman di layar kiri, keahlian dan bahasa komunikasi di layar kanan. Daftarnya terus bertambah setiap semester.',tProg:'Bahasa pemrograman',tLanguage:'Bahasa',noProg:'Tambah jejak berjenis Bahasa Pemrograman, misalnya C++ atau Python.',langLv:['Sedikit','Dasar','Menengah','Mahir','Bahasa ibu'],toolTitle:'Tools, kode <em>&amp; bahasa</em>',nLib:'Library',libEyebrow:'Arsip lengkap',libLead:'Semua project, perjalanan kuliah, dan pencapaian dalam satu tempat. Pilih kategori, cari, lalu buka salah satu untuk membaca detailnya.',lAll:'Semua',lProj:'Project',lJourney:'Perjalanan',lAch:'Achievement',libSearch:'Cari judul, cerita, atau tag…',seeAllN:'Lihat semua',loadMore:'Tampilkan lebih banyak',noResult:'Tidak ada yang cocok dengan pencarianmu.',latest:'Jejak terbaru',showing:'Menampilkan',of:'dari',seeAllProj:'Lihat semua project',allTier:'Semua tingkat'});
-Object.assign(T.en,{zgMarqDef:['From idea to reality','Robotics & AI','Code that moves','Learning by building','One project, one step','Fail, try, succeed'],flipHint:'hover to flip',loopW:['Build','Test','Evaluate','Improve'],curOpen:'open',zgK:'Portfolio · selected work',zgHead:'Things <em>I have built</em>',zgSub:'Robotics, AI, apps and small programs. Every piece of work is logged here with its story.',zgHint:'Scroll to dive in',foldSoon:'Coming up',foldNone:'No projects yet',foldClose:'Close folder',nTools:'Tools',gsHint:'Move your cursor to rotate · click a tower to open that semester',ringK:'of the journey',cdK:'Countdown to graduation',cdL:['days','hrs','min','sec'],cdUntil:'Expected graduation',youHere:'YOU ARE HERE',gradWord:'GRADUATION',semEmpty:'No entries yet',wsHead:'The kit for <em>building ideas</em>',wsDesc:'Everything I use to turn ideas into things that actually run: tools and programming languages on the left screens, skills and spoken languages on the right. The list grows every semester.',tProg:'Programming languages',tLanguage:'Languages',noProg:'Add a Programming entry, for example C++ or Python.',langLv:['A little','Basic','Intermediate','Advanced','Native'],toolTitle:'Tools, code <em>&amp; languages</em>',nLib:'Library',libEyebrow:'Complete archive',libLead:'Every project, college milestone, and achievement in one place. Pick a category, search, then open one to read the details.',lAll:'All',lProj:'Projects',lJourney:'Journey',lAch:'Achievements',libSearch:'Search titles, stories, or tags…',seeAllN:'See all',loadMore:'Show more',noResult:'Nothing matches your search.',latest:'Latest entries',showing:'Showing',of:'of',seeAllProj:'See all projects',allTier:'All tiers'});
+Object.assign(T.id,{ab2K:'Tentang saya',ab2Title:'Halo, saya <em>Zafran.</em>',ab2Def:'Mahasiswa Ilmu Komputer yang senang membuat sesuatu yang bisa bergerak dan berpikir, dari robot kecil sampai program AI. Di sini saya menyimpan cerita di balik setiap project, kemenangan kecil, dan pelajaran sepanjang kuliah.',albD1:'Zafran, 2026',albD2:'Universitas Sumatera Utara',albHint:'Seret foto ke samping untuk melihat berikutnya',albHintT:'Geser foto ke samping untuk melihat berikutnya',zgMarqDef:['Dari ide jadi nyata','Robotika & AI','Kode yang bergerak','Belajar dengan membangun','Satu project, satu langkah','Gagal, coba, berhasil'],flipHint:'arahkan untuk membalik',loopW:['Rakit','Uji','Evaluasi','Perbaiki'],curOpen:'buka',zgK:'Portofolio · karya pilihan',zgHead:'Karya yang <em>saya bangun</em>',zgSub:'Robotika, AI, aplikasi, sampai program kecil. Setiap karya dicatat di sini, lengkap dengan ceritanya.',zgHint:'Scroll untuk masuk',foldSoon:'Segera',foldNone:'Belum ada project',foldClose:'Tutup folder',nTools:'Tools',gsHint:'Arahkan kursor untuk memutar · klik menara untuk membuka semesternya',ringK:'perjalanan',cdK:'Hitung mundur menuju wisuda',cdL:['hari','jam','menit','detik'],cdUntil:'Target wisuda',youHere:'KAMU DI SINI',gradWord:'WISUDA',semEmpty:'Belum ada jejak',wsHead:'Perlengkapan untuk <em>merakit ide</em>',wsDesc:'Semua yang saya pakai untuk mengubah ide menjadi sesuatu yang benar-benar berjalan: tools dan bahasa pemrograman di layar kiri, keahlian dan bahasa komunikasi di layar kanan. Daftarnya terus bertambah setiap semester.',tProg:'Bahasa pemrograman',tLanguage:'Bahasa',noProg:'Tambah jejak berjenis Bahasa Pemrograman, misalnya C++ atau Python.',langLv:['Sedikit','Dasar','Menengah','Mahir','Bahasa ibu'],toolTitle:'Tools, kode <em>&amp; bahasa</em>',nLib:'Library',libEyebrow:'Arsip lengkap',libLead:'Semua project, perjalanan kuliah, dan pencapaian dalam satu tempat. Pilih kategori, cari, lalu buka salah satu untuk membaca detailnya.',lAll:'Semua',lProj:'Project',lJourney:'Perjalanan',lAch:'Achievement',libSearch:'Cari judul, cerita, atau tag…',seeAllN:'Lihat semua',loadMore:'Tampilkan lebih banyak',noResult:'Tidak ada yang cocok dengan pencarianmu.',latest:'Jejak terbaru',showing:'Menampilkan',of:'dari',seeAllProj:'Lihat semua project',allTier:'Semua tingkat'});
+Object.assign(T.en,{ab2K:'About me',ab2Title:'Hi, I am <em>Zafran.</em>',ab2Def:'A Computer Science student who loves making things that move and think, from small robots to AI programs. This is where I keep the stories behind every project, small wins and lessons from my college years.',albD1:'Zafran, 2026',albD2:'Universitas Sumatera Utara',albHint:'Drag a photo aside to see the next one',albHintT:'Swipe a photo aside to see the next one',zgMarqDef:['From idea to reality','Robotics & AI','Code that moves','Learning by building','One project, one step','Fail, try, succeed'],flipHint:'hover to flip',loopW:['Build','Test','Evaluate','Improve'],curOpen:'open',zgK:'Portfolio · selected work',zgHead:'Things <em>I have built</em>',zgSub:'Robotics, AI, apps and small programs. Every piece of work is logged here with its story.',zgHint:'Scroll to dive in',foldSoon:'Coming up',foldNone:'No projects yet',foldClose:'Close folder',nTools:'Tools',gsHint:'Move your cursor to rotate · click a tower to open that semester',ringK:'of the journey',cdK:'Countdown to graduation',cdL:['days','hrs','min','sec'],cdUntil:'Expected graduation',youHere:'YOU ARE HERE',gradWord:'GRADUATION',semEmpty:'No entries yet',wsHead:'The kit for <em>building ideas</em>',wsDesc:'Everything I use to turn ideas into things that actually run: tools and programming languages on the left screens, skills and spoken languages on the right. The list grows every semester.',tProg:'Programming languages',tLanguage:'Languages',noProg:'Add a Programming entry, for example C++ or Python.',langLv:['A little','Basic','Intermediate','Advanced','Native'],toolTitle:'Tools, code <em>&amp; languages</em>',nLib:'Library',libEyebrow:'Complete archive',libLead:'Every project, college milestone, and achievement in one place. Pick a category, search, then open one to read the details.',lAll:'All',lProj:'Projects',lJourney:'Journey',lAch:'Achievements',libSearch:'Search titles, stories, or tags…',seeAllN:'See all',loadMore:'Show more',noResult:'Nothing matches your search.',latest:'Latest entries',showing:'Showing',of:'of',seeAllProj:'See all projects',allTier:'All tiers'});
 const LIB={tab:'all',q:'',limit:12,tier:'all'};
 const LIBTABS=['all','project','jejak','achievement'];
 function libFilter(list){const q=LIB.q.trim().toLowerCase();if(!q)return list;return list.filter(e=>((e.title||'')+' '+(e.desc||'')+' '+(e.tags||[]).join(' ')+' '+tl(e.type)).toLowerCase().includes(q));}
@@ -2660,7 +2707,7 @@ function animateNew(){
   requestAnimationFrame(()=>ST.refresh());
 }
 function setupScroll(){
-  setupChapters();setupAbout();setupBento();setupWs();setupGrad();setupZg();
+  setupChapters();setupAlbum();setupWs();setupGrad();setupZg();
   if(!ST)return;
   document.querySelectorAll('[data-split]').forEach(el=>{ST.create({trigger:el,start:'top 86%',once:true,onEnter:()=>{G.from(el.querySelectorAll('.c'),{yPercent:115,rotate:5,duration:1.1,stagger:.025,ease:'expo.out'});}});});
   document.querySelectorAll('[data-fade]').forEach(el=>G.from(el,{y:40,opacity:0,duration:1.1,ease:'expo.out',clearProps:'transform,opacity',scrollTrigger:{trigger:el,start:'top 88%',once:true}}));
@@ -2723,12 +2770,15 @@ $('entryForm').addEventListener('submit',async ev=>{ev.preventDefault();if(!S.db
     if(type==='achievement'){const sc=document.querySelector('input[name=fscope]:checked');body.scope=sc?sc.value:'kampus';}
     await (S.editing?S.db.collection('entries').doc(S.editing):S.db.collection('entries').doc()).set(body);$('entryDlg').close();toast(S.editing?'Jejak diperbarui':'Jejak tersimpan');
   }catch(err){$('entryMsg').textContent=errText(err);}finally{btn.disabled=false;btn.textContent='Simpan';}});
-const PF={pName:'name',pFull:'fullName',pRole:'role',pRoleEn:'roleEn',pBio:'bio',pBioEn:'bioEn',pCardTag:'cardTag',pCardBig:'cardBig',pNim:'nim',pProdi:'prodi',pCampus:'campus',pIg:'instagram',pTt:'tiktok',pGh:'github',pLi:'linkedin',pFb:'facebook',pDc:'discord',pEmail:'email',pMarq:'marquee',pTapeA:'tapeA',pTapeB:'tapeB',pBase:'base',pMotto:'aboutMotto',pMottoEn:'aboutMottoEn',pMottoSub:'aboutMottoSub',pMottoSubEn:'aboutMottoSubEn',pStory:'aboutStory',pStoryEn:'aboutStoryEn',pParts:'aboutParts',pPartsEn:'aboutPartsEn',pLaws:'aboutLaws',pLawsEn:'aboutLawsEn'};
-const PF_DEF={pBase:['id','ab_base'],pMotto:['id','ab_aboutMotto'],pMottoEn:['en','ab_aboutMotto'],pMottoSub:['id','ab_aboutMottoSub'],pMottoSubEn:['en','ab_aboutMottoSub'],pStory:['id','ab_aboutStory'],pStoryEn:['en','ab_aboutStory'],pParts:['id','ab_aboutParts'],pPartsEn:['en','ab_aboutParts'],pLaws:['id','ab_aboutLaws'],pLawsEn:['en','ab_aboutLaws']};
-function openProfile(){const p=S.profile;$('profMsg').textContent='';Object.keys(PF).forEach(k=>$(k).value=p[PF[k]]||(PF_DEF[k]?T[PF_DEF[k][0]][PF_DEF[k][1]]:''));$('pAngk').value=angk();$('pTarget').value=gradTarget();$('pHero').value='';$('pPhoto').value='';$('pCardImg').value='';$('pHero').disabled=$('pPhoto').disabled=$('pCardImg').disabled=!S.assets;openDlg('profDlg');}
+const PF={pName:'name',pFull:'fullName',pRole:'role',pRoleEn:'roleEn',pBio:'bio',pBioEn:'bioEn',pCardTag:'cardTag',pCardBig:'cardBig',pNim:'nim',pProdi:'prodi',pCampus:'campus',pIg:'instagram',pTt:'tiktok',pGh:'github',pLi:'linkedin',pFb:'facebook',pDc:'discord',pEmail:'email',pMarq:'marquee',pTapeA:'tapeA',pTapeB:'tapeB',pMotto:'aboutMotto',pMottoEn:'aboutMottoEn',pShort:'aboutShort',pShortEn:'aboutShortEn'};
+const PF_DEF={pMotto:['id','ab_aboutMotto'],pMottoEn:['en','ab_aboutMotto'],pShort:['id','ab2Def'],pShortEn:['en','ab2Def']};
+function openProfile(){const p=S.profile;$('profMsg').textContent='';Object.keys(PF).forEach(k=>$(k).value=p[PF[k]]||(PF_DEF[k]?T[PF_DEF[k][0]][PF_DEF[k][1]]:''));$('pAngk').value=angk();$('pTarget').value=gradTarget();const al=Array.isArray(p.album)?p.album:[];$('pAlbumCap').value=al.map(a=>a.cap||'').join('\n');$('pAlbum').value='';$('pAlbumReset').checked=false;$('pAlbum').disabled=!S.assets;$('albInfo').textContent=al.length?al.length+' foto di album sekarang':'Album masih memakai foto bawaan (foto hero dan foto kartu).';$('pHero').value='';$('pPhoto').value='';$('pCardImg').value='';$('pHero').disabled=$('pPhoto').disabled=$('pCardImg').disabled=!S.assets;openDlg('profDlg');}
 $('profForm').addEventListener('submit',async ev=>{ev.preventDefault();if(!S.db)return;const btn=$('profSave');btn.disabled=true;btn.textContent='Menyimpan…';
   try{const body={};Object.keys(PF).forEach(k=>body[PF[k]]=$(k).value.trim());const a=parseInt($('pAngk').value,10);body.angkatan=a>1990?a:angk();body.target=$('pTarget').value||'';body.photo=S.profile.photo||null;body.heroPhoto=S.profile.heroPhoto||null;body.cardImage=S.profile.cardImage||null;
     if(S.assets){const h=$('pHero').files[0],c=$('pPhoto').files[0];if(h){btn.textContent='Mengunggah foto hero…';body.heroPhoto=(await S.assets.upload(h)).id;}if(c){btn.textContent='Mengunggah foto kartu…';body.photo=(await S.assets.upload(c)).id;}const ci=$('pCardImg').files[0];if(ci){btn.textContent='Mengunggah desain kartu…';body.cardImage=(await S.assets.upload(ci)).id;}}
+    {let al=$('pAlbumReset').checked?[]:(Array.isArray(S.profile.album)?S.profile.album.map(a=>({img:a.img,cap:a.cap||''})):[]);const fs=[...($('pAlbum').files||[])];
+      for(let i=0;i<fs.length;i++){btn.textContent='Mengunggah foto album '+(i+1)+'/'+fs.length+'…';al.push({img:(await S.assets.upload(fs[i])).id,cap:''});}
+      const caps=$('pAlbumCap').value.split('\n');al.forEach((a,i)=>{if(caps[i]!==undefined)a.cap=caps[i].trim();});body.album=al.slice(0,12);}
     body.updatedAt=new Date().toISOString();await S.db.doc('profile/main').set(body);$('profDlg').close();toast('Profil tersimpan');
   }catch(err){$('profMsg').textContent=errText(err);}finally{btn.disabled=false;btn.textContent='Simpan profil';}});
 
